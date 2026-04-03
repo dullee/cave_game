@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://cqdr3352ye8i6"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_itto5"]
+font_size = 77
+
+[node name="DeathScreen" type="Control" unique_id=1286859759]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="VBoxContainer" parent="." unique_id=1705915097]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -48.0
+offset_right = 48.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+alignment = 1
+
+[node name="Label" type="Label" parent="HBoxContainer" unique_id=979894311]
+layout_mode = 2
+text = "You died"
+label_settings = SubResource("LabelSettings_itto5")
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="HBoxContainer" unique_id=1675183402]
+layout_mode = 2
+text = "Main Menu"

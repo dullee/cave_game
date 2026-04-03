@@ -1,0 +1,109 @@
+[gd_scene format=4 uid="uid://bcnnhrt3426fy"]
+
+[ext_resource type="Script" uid="uid://m5tosbvs7kts" path="res://scripts/cave_generator.gd" id="1_4wyf3"]
+[ext_resource type="Script" uid="uid://c3tr8ujsiwoc7" path="res://scripts/world.gd" id="1_i7141"]
+[ext_resource type="Script" uid="uid://bs70lna1dynm" path="res://scripts/tile_map_layer.gd" id="2_71j4m"]
+[ext_resource type="Texture2D" uid="uid://cgq7i5v33sg4r" path="res://assets/texture/New Piskel.png" id="2_qfnet"]
+[ext_resource type="PackedScene" uid="uid://c7fvxqisjt71m" path="res://scenes/enemy.tscn" id="5_71j4m"]
+[ext_resource type="Script" uid="uid://ddacpuc6b72bt" path="res://scripts/player_camera.gd" id="6_4mrxx"]
+[ext_resource type="PackedScene" uid="uid://bqlrr5ond8qd4" path="res://scenes/spawn_area.tscn" id="7_4mrxx"]
+[ext_resource type="PackedScene" uid="uid://23ae3y1gwajy" path="res://scenes/loading_menu.tscn" id="7_i7141"]
+[ext_resource type="PackedScene" uid="uid://c5n7m12koykgm" path="res://scenes/sound_component.tscn" id="9_7r4gi"]
+[ext_resource type="Script" uid="uid://vdualululsel" path="res://scripts/enemy_spawner.gd" id="10_w7kh3"]
+[ext_resource type="Script" uid="uid://csik3x2mq61wq" path="res://scripts/spawn_tile_debug.gd" id="11_e3hyu"]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_i7141"]
+polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_71j4m"]
+texture = ExtResource("2_qfnet")
+0:0/0 = 0
+0:0/0/modulate = Color(0, 1, 0, 1)
+0:0/0/custom_data_0 = true
+0:0/0/custom_data_1 = true
+1:0/0 = 0
+0:1/0 = 0
+0:1/0/z_index = 5
+0:1/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_i7141")
+0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, 8, -8, -8, 8, -8, 8, 8)
+0:1/0/custom_data_0 = true
+1:1/0 = 0
+1:1/0/z_index = -2
+
+[sub_resource type="TileSet" id="TileSet_qfnet"]
+occlusion_layer_0/light_mask = 1
+physics_layer_0/collision_layer = 1
+physics_layer_0/collision_mask = 14
+custom_data_layer_0/name = "breakable"
+custom_data_layer_0/type = 1
+custom_data_layer_1/name = "can_glow"
+custom_data_layer_1/type = 1
+sources/0 = SubResource("TileSetAtlasSource_71j4m")
+
+[sub_resource type="Environment" id="Environment_71j4m"]
+glow_enabled = true
+glow_blend_mode = 0
+
+[node name="World" type="Node2D" unique_id=34334308 groups=["world"]]
+script = ExtResource("1_i7141")
+
+[node name="LoadingMenu" parent="." unique_id=890998599 instance=ExtResource("7_i7141")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2102596899]
+follow_viewport_enabled = true
+
+[node name="SpawnArea" parent="CanvasLayer" unique_id=1184317836 instance=ExtResource("7_4mrxx")]
+position = Vector2(753, -32)
+tile_map_data = PackedByteArray("AAD9/wAAAAAAAAAAAAD+/wAAAAAAAAAAAAD//wAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAACAAAAAAAAAAAAAAD6/wAAAAAAAAAAAAD7/wAAAAAAAAAAAAD8/wAAAAAAAAAAAAADAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAFAAAAAAAAAAAAAAAGAAAAAAAAAAAAAAAHAAAAAAAAAAAAAAD5/wAAAAAAAAAAAAD4/wAAAAAAAAAAAAD3/wAAAAAAAAAAAAD2/wAAAAAAAAAAAAAIAAAAAAAAAAAAAAAJAAAAAAAAAAAAAAAKAAAAAAAAAAAAAAD1/wAAAAAAAAAAAAD0/wAAAAAAAAAAAADz/wAAAAAAAAAAAADy/wAAAAAAAAAAAADx/wAAAAAAAAAAAADw/wAAAAAAAAAAAADv/wAAAAAAAAAAAADu/wAAAAAAAAAAAADt/wAAAAAAAAAAAADs/wAAAAAAAAAAAADr/wAAAAAAAAAAAADq/wAAAAAAAAAAAAALAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAANAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAAVAAAAAAAAAAAAAAAWAAAAAAAAAAAAAAAXAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAAZAAAAAAAAAAAAAAAaAAAAAAAAAAAAAADp/wAAAAAAAAAAAAA=")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1528659640 groups=["tilemaplayer"]]
+z_as_relative = false
+tile_set = SubResource("TileSet_qfnet")
+script = ExtResource("2_71j4m")
+
+[node name="CaveGenerator" type="Node" parent="." unique_id=268849033 groups=["cave_generator"]]
+script = ExtResource("1_4wyf3")
+
+[node name="Players" type="Node2D" parent="." unique_id=2043272240 groups=["players_node"]]
+position = Vector2(753, -62)
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="Players" unique_id=1019703713]
+_spawnable_scenes = PackedStringArray("uid://2bk8cuyl4x35")
+spawn_path = NodePath("..")
+spawn_limit = 10
+
+[node name="PlayerCamera" type="Camera2D" parent="Players" unique_id=657574223 groups=["camera"]]
+position = Vector2(-363, 62)
+script = ExtResource("6_4mrxx")
+
+[node name="Bosses" type="Node" parent="." unique_id=694853146 groups=["boss_node"]]
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="Bosses" unique_id=1529316511]
+_spawnable_scenes = PackedStringArray("uid://cfc8b2a0fvinb")
+spawn_path = NodePath("..")
+spawn_limit = 10
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1933218963]
+environment = SubResource("Environment_71j4m")
+
+[node name="DirectionalLight2D" type="DirectionalLight2D" parent="." unique_id=1907083694]
+visible = false
+energy = 0.93
+blend_mode = 1
+
+[node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=1240961094]
+visible = false
+color = Color(0.13319641, 0.13319641, 0.13319635, 1)
+
+[node name="SoundComponent" parent="." unique_id=132270122 instance=ExtResource("9_7r4gi")]
+sounds = {}
+
+[node name="EnemySpawner" type="Node" parent="." unique_id=2094223727]
+script = ExtResource("10_w7kh3")
+enemies = Array[PackedScene]([ExtResource("5_71j4m")])
+
+[node name="Enemies" type="Node" parent="." unique_id=1824752268 groups=["enemies"]]
+
+[node name="SpawnTileDebug" type="Node2D" parent="." unique_id=842841335]
+z_index = 10
+script = ExtResource("11_e3hyu")

@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://r1r2lk1x8kcv"]
+
+[ext_resource type="Script" uid="uid://dpsbwgji6qgfl" path="res://scripts/boss_projectile.gd" id="1_6ienu"]
+[ext_resource type="Texture2D" uid="uid://b74d382eekopl" path="res://assets/texture/fireball.png" id="2_2n0ct"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fnfp1"]
+radius = 16.03122
+
+[sub_resource type="Gradient" id="Gradient_6ienu"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_2n0ct"]
+gradient = SubResource("Gradient_6ienu")
+fill = 1
+fill_from = Vector2(0.51306415, 0.49406177)
+fill_to = Vector2(0.8788599, 0.17814727)
+
+[node name="BossProjectile" type="Area2D" unique_id=928932404]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_6ienu")
+
+[node name="CollisionShape" type="CollisionShape2D" parent="." unique_id=864759062]
+shape = SubResource("CircleShape2D_fnfp1")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1367753099]
+texture = ExtResource("2_2n0ct")
+
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=287199685]
+color = Color(1, 0, 0, 1)
+texture = SubResource("GradientTexture2D_2n0ct")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

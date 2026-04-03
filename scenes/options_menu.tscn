@@ -1,0 +1,77 @@
+[gd_scene format=3 uid="uid://ch6c2egmdt88u"]
+
+[ext_resource type="Script" uid="uid://66ci4vxh2af2" path="res://scripts/options_menu.gd" id="1_liyum"]
+[ext_resource type="Shader" uid="uid://cmm0mbpkwqom2" path="res://scenes/options_menu.gdshader" id="2_ijpji"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hm4m4"]
+shader = ExtResource("2_ijpji")
+shader_parameter/lod = 1.882000089395
+
+[node name="OptionsMenu" type="Control" unique_id=237974799]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_liyum")
+
+[node name="BlurredBackground" type="ColorRect" parent="." unique_id=288568345]
+material = SubResource("ShaderMaterial_hm4m4")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -366.5
+offset_top = -182.5
+offset_right = 366.5
+offset_bottom = 182.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="HBoxContainer" parent="." unique_id=909760215]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -341.5
+offset_top = -165.28558
+offset_right = 341.5
+offset_bottom = 165.28558
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+alignment = 2
+
+[node name="Volume" type="Node" parent="VBoxContainer" unique_id=440201358]
+
+[node name="VolumeLabel" type="Label" parent="VBoxContainer/Volume" unique_id=1105161048]
+offset_left = 414.0
+offset_top = 499.21442
+offset_right = 1097.0
+offset_bottom = 522.2144
+text = "Volume"
+
+[node name="VolumeSlider" type="HSlider" parent="VBoxContainer/Volume" unique_id=240942047]
+offset_left = 414.0
+offset_top = 526.2144
+offset_right = 1097.0
+offset_bottom = 542.2144
+max_value = 1.0
+step = 0.1
+value = 1.0
+
+[node name="ResumeButton" type="Button" parent="." unique_id=2114275803]
+layout_mode = 0
+offset_left = 1073.0
+offset_top = 351.05078
+offset_right = 1105.0
+offset_bottom = 383.5926
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0.5869137, 0.9456945, 0.97107846, 1)
+text = "x"

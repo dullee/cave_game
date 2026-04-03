@@ -1,0 +1,52 @@
+[gd_scene format=4 uid="uid://budwen2ofhe0u"]
+
+[ext_resource type="Texture2D" uid="uid://cgq7i5v33sg4r" path="res://assets/texture/New Piskel.png" id="1_3n20u"]
+[ext_resource type="Script" uid="uid://d0j884uu25xdt" path="res://scripts/boss_room.gd" id="1_bpcqn"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bpcqn"]
+texture = ExtResource("1_3n20u")
+0:0/0 = 0
+1:0/0 = 0
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+0:1/0 = 0
+0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="TileSet" id="TileSet_673pk"]
+physics_layer_0/collision_layer = 1
+physics_layer_0/collision_mask = 14
+custom_data_layer_0/name = "breakable"
+custom_data_layer_0/type = 1
+sources/0 = SubResource("TileSetAtlasSource_bpcqn")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3n20u"]
+size = Vector2(754, 364)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_bpcqn"]
+
+[node name="BossRoom" type="Node2D" unique_id=675649478]
+script = ExtResource("1_bpcqn")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1738341119]
+position = Vector2(598, 781)
+tile_map_data = PackedByteArray("AADy/wAAAAAAAAEAAADz/wAAAAAAAAEAAAD0/wAAAAAAAAEAAAD1/wAAAAAAAAEAAAD2/wAAAAAAAAEAAAD3/wAAAAAAAAEAAAD4/wAAAAAAAAEAAAD5/wAAAAAAAAEAAAD6/wAAAAAAAAEAAAD7/wAAAAAAAAEAAAD8/wAAAAAAAAEAAAD9/wAAAAAAAAEAAAD+/wAAAAAAAAEAAAD//wAAAAAAAAEAAAAAAAAAAAAAAAEAAAABAAAAAAAAAAEAAAACAAAAAAAAAAEAAAADAAAAAAAAAAEAAAAEAAAAAAAAAAEAAAAFAAAAAAAAAAEAAAAGAAAAAAAAAAEAAAAHAAAAAAAAAAEAAAAIAAAAAAAAAAEAAAAJAAAAAAAAAAEAAAAKAAAAAAAAAAEAAAALAAAAAAAAAAEAAAAMAAAAAAAAAAEAAAANAAAAAAAAAAEAAAAdAAAAAAAAAAEAAAAcAAAAAAAAAAEAAAAbAAAAAAAAAAEAAAAaAAAAAAAAAAEAAAAZAAAAAAAAAAEAAAAYAAAAAAAAAAEAAAAXAAAAAAAAAAEAAAAWAAAAAAAAAAEAAAAVAAAAAAAAAAEAAAAUAAAAAAAAAAEAAAATAAAAAAAAAAEAAAASAAAAAAAAAAEAAAARAAAAAAAAAAEAAAAQAAAAAAAAAAEAAAAPAAAAAAAAAAEAAAAOAAAAAAAAAAEAAADx/wAAAAAAAAEAAADw/wAAAAAAAAEAAADv/wAAAAAAAAEAAADu/wAAAAAAAAEAAADt/wAAAAAAAAEAAADs/wAAAAAAAAEAAADr/wAAAAAAAAEAAADq/wAAAAAAAAEAAADp/wAAAAAAAAEAAADo/wAAAAAAAAEAAADn/wAAAAAAAAEAAADm/wAAAAAAAAEAAADl/wAAAAAAAAEAAADk/wAAAAAAAAEAAADj/wAAAAAAAAEAAAAeAAAAAAAAAAEAAAAfAAAAAAAAAAEAAAAgAAAAAAAAAAEAAAAhAAAAAAAAAAEAAAAiAAAAAAAAAAEAAAAjAAAAAAAAAAEAAAAkAAAAAAAAAAEAAAAlAAAAAAAAAAEAAAAmAAAAAAAAAAEAAAAnAAAAAAAAAAEAAAAoAAAAAAAAAAEAAAApAAAAAAAAAAEAAAAqAAAAAAAAAAEAAAArAAAAAAAAAAEAAAAsAAAAAAAAAAEAAAAtAAAAAAAAAAEAAAAuAAAAAAAAAAEAAAAvAAAAAAAAAAEAAAAwAAAAAAAAAAEAAAAxAAAAAAAAAAEAAAAyAAAAAAAAAAEAAAAzAAAAAAAAAAEAAADb/9D/AAAAAAEAAADb/9H/AAAAAAEAAADb/9L/AAAAAAEAAADb/9P/AAAAAAEAAADb/9T/AAAAAAEAAADb/9X/AAAAAAEAAADb/9b/AAAAAAEAAADb/9f/AAAAAAEAAADb/9j/AAAAAAEAAADb/9n/AAAAAAEAAADb/9r/AAAAAAEAAADb/9v/AAAAAAEAAADb/9z/AAAAAAEAAADb/93/AAAAAAEAAADb/97/AAAAAAEAAADb/9//AAAAAAEAAADb/+D/AAAAAAEAAADb/+H/AAAAAAEAAADb/+L/AAAAAAEAAADb/+P/AAAAAAEAAADb/+T/AAAAAAEAAADb/+X/AAAAAAEAAADb/+b/AAAAAAEAAADb/+f/AAAAAAEAAADb/+j/AAAAAAEAAADb/+n/AAAAAAEAAADb/+r/AAAAAAEAAADb/+v/AAAAAAEAAADb/+z/AAAAAAEAAADb/+3/AAAAAAEAAADb/+7/AAAAAAEAAADb/+//AAAAAAEAAADb//D/AAAAAAEAAADb//H/AAAAAAEAAADb//L/AAAAAAEAAADb//P/AAAAAAEAAADb//T/AAAAAAEAAADb//X/AAAAAAEAAADb//b/AAAAAAEAAADb//f/AAAAAAEAAADb//j/AAAAAAEAAADb//n/AAAAAAEAAADb//r/AAAAAAEAAADb//v/AAAAAAEAAADb//z/AAAAAAEAAADb//3/AAAAAAEAAADb//7/AAAAAAEAAADb////AAAAAAEAAADb/8//AAAAAAEAAAA=")
+tile_set = SubResource("TileSet_673pk")
+
+[node name="BossTrigger" type="Area2D" parent="TileMapLayer" unique_id=628600259]
+position = Vector2(199, -7)
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TileMapLayer/BossTrigger" unique_id=1544031228]
+position = Vector2(-2, -166)
+shape = SubResource("RectangleShape2D_3n20u")
+
+[node name="BossSpawnPoint" type="Marker2D" parent="TileMapLayer" unique_id=1801390153]
+position = Vector2(200, -122)
+
+[node name="OutOfBoundsArea" type="Area2D" parent="TileMapLayer" unique_id=113041103]
+position = Vector2(201, 110)
+collision_mask = 15
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TileMapLayer/OutOfBoundsArea" unique_id=995290095]
+shape = SubResource("WorldBoundaryShape2D_bpcqn")
+
+[connection signal="body_entered" from="TileMapLayer/OutOfBoundsArea" to="." method="_on_out_of_bounds_area_body_entered"]

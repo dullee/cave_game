@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://c5n7m12koykgm"]
+
+[ext_resource type="Script" uid="uid://dehgjgbdx7bvn" path="res://scripts/sound_component.gd" id="1_ndj7i"]
+[ext_resource type="Resource" uid="uid://dt807uks3j0yw" path="res://resources/sfx/shoot_sound.tres" id="2_0xu5q"]
+[ext_resource type="Resource" uid="uid://bclysv4vxju0t" path="res://resources/sfx/jump_sound.tres" id="3_frlel"]
+[ext_resource type="Resource" uid="uid://calhppgy1nnw3" path="res://resources/sfx/explosion_sound.tres" id="4_ybm5u"]
+[ext_resource type="Resource" uid="uid://g1w660jdiaru" path="res://resources/sfx/player_hit_sound.tres" id="5_8rybu"]
+[ext_resource type="Resource" uid="uid://cw1rhaoyr4rq5" path="res://resources/sfx/player_death_sound.tres" id="6_nbhop"]
+[ext_resource type="Resource" uid="uid://b03npaq64x04n" path="res://resources/sfx/reload_sound.tres" id="7_34peg"]
+
+[node name="SoundComponent" type="Node" unique_id=132270122]
+script = ExtResource("1_ndj7i")
+sounds = {
+"explosion": ExtResource("4_ybm5u"),
+"jump": ExtResource("3_frlel"),
+"player_death": ExtResource("6_nbhop"),
+"player_hit": ExtResource("5_8rybu"),
+"reload": ExtResource("7_34peg"),
+"shoot": ExtResource("2_0xu5q")
+}
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1505343124]
+max_distance = 1070.0

@@ -1,0 +1,143 @@
+[gd_scene format=3 uid="uid://cfc8b2a0fvinb"]
+
+[ext_resource type="Script" uid="uid://b3wtcc3vwct8x" path="res://scripts/boss.gd" id="1_dlmty"]
+[ext_resource type="Texture2D" uid="uid://bofvuhk3prqya" path="res://assets/texture/icon.svg" id="2_jncid"]
+[ext_resource type="Script" uid="uid://cn0byti61w6g8" path="res://scripts/tentacle.gd" id="2_neq0i"]
+[ext_resource type="PackedScene" uid="uid://r1r2lk1x8kcv" path="res://scenes/boss_projectile.tscn" id="2_qsl3t"]
+[ext_resource type="Script" uid="uid://dvy4nbk8xdwwj" path="res://scripts/hit_box.gd" id="2_wqpjq"]
+[ext_resource type="PackedScene" uid="uid://b2sdkpkgw7a5c" path="res://scenes/health_component.tscn" id="4_qnbj4"]
+[ext_resource type="Texture2D" uid="uid://bg8gdqrw07vm4" path="res://assets/texture/health_bar_green.png" id="5_r3bxh"]
+[ext_resource type="PackedScene" uid="uid://c5n7m12koykgm" path="res://scenes/sound_component.tscn" id="7_2cdgk"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_neq0i"]
+radius = 74.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_r3bxh"]
+radius = 73.552704
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jncid"]
+radius = 18.110771
+
+[sub_resource type="Gradient" id="Gradient_qnbj4"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_r3bxh"]
+gradient = SubResource("Gradient_qnbj4")
+fill = 1
+fill_from = Vector2(0.49347827, 0.4847826)
+fill_to = Vector2(0.8586956, 0.16304348)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_jncid"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_qsl3t"]
+light_mode = 1
+
+[node name="Boss" type="CharacterBody2D" unique_id=259502877]
+light_mask = 0
+collision_layer = 4
+script = ExtResource("1_dlmty")
+projectile_scene = ExtResource("2_qsl3t")
+shoot_interval = 0.2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=493085254]
+shape = SubResource("CircleShape2D_neq0i")
+
+[node name="HitBox" type="Area2D" parent="." unique_id=344302501]
+collision_layer = 4
+collision_mask = 10
+script = ExtResource("2_wqpjq")
+knockback_force = 1200.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox" unique_id=1044987223]
+shape = SubResource("CircleShape2D_r3bxh")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1293979478]
+texture = ExtResource("2_jncid")
+
+[node name="Tentacles" type="Node2D" parent="." unique_id=922689352]
+
+[node name="Tentacle1" type="RigidBody2D" parent="Tentacles" unique_id=838209036]
+position = Vector2(197, 0)
+collision_layer = 4
+collision_mask = 14
+script = ExtResource("2_neq0i")
+hp = 250
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Tentacles/Tentacle1" unique_id=780416677]
+shape = SubResource("CircleShape2D_jncid")
+
+[node name="Sprite2D" type="Sprite2D" parent="Tentacles/Tentacle1" unique_id=562737834]
+scale = Vector2(0.22151616, 0.22151616)
+texture = ExtResource("2_jncid")
+
+[node name="PinJoint2D" type="PinJoint2D" parent="Tentacles/Tentacle1" unique_id=1181269121]
+node_a = NodePath("../../..")
+node_b = NodePath("..")
+
+[node name="PointLight2D2" type="PointLight2D" parent="Tentacles/Tentacle1" unique_id=1786795028]
+position = Vector2(-383, 0)
+scale = Vector2(1.1756324, 1.0592331)
+color = Color(1, 0, 0, 1)
+texture = SubResource("GradientTexture2D_r3bxh")
+
+[node name="Tentacle2" type="RigidBody2D" parent="Tentacles" unique_id=1660675800]
+position = Vector2(-186, 0)
+collision_layer = 4
+collision_mask = 14
+script = ExtResource("2_neq0i")
+hp = 250
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Tentacles/Tentacle2" unique_id=162415520]
+shape = SubResource("CircleShape2D_jncid")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Tentacles/Tentacle2" unique_id=356375011]
+position = Vector2(-3.0517578e-05, 0)
+scale = Vector2(0.22151616, 0.22151616)
+texture = ExtResource("2_jncid")
+
+[node name="PinJoint2D" type="PinJoint2D" parent="Tentacles/Tentacle2" unique_id=947778374]
+node_a = NodePath("../../..")
+node_b = NodePath("..")
+
+[node name="PointLight2D3" type="PointLight2D" parent="Tentacles/Tentacle2" unique_id=605892256 groups=["enemy"]]
+position = Vector2(383, 0)
+scale = Vector2(1.1756324, 1.0592331)
+color = Color(1, 0, 0, 1)
+texture = SubResource("GradientTexture2D_r3bxh")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1739142392]
+replication_config = SubResource("SceneReplicationConfig_jncid")
+
+[node name="HealthComponent" parent="." unique_id=2030201660 instance=ExtResource("4_qnbj4")]
+max_health = 1000
+
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=771385422]
+scale = Vector2(4.0625, 3.6602721)
+color = Color(1, 0, 0, 1)
+texture = SubResource("GradientTexture2D_r3bxh")
+
+[node name="SoundComponent" parent="." unique_id=132270122 instance=ExtResource("7_2cdgk")]
+sounds = {}
+
+[node name="HealthBar" type="TextureProgressBar" parent="." unique_id=1825294592]
+clip_children = 2
+light_mask = 0
+material = SubResource("CanvasItemMaterial_qsl3t")
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -55.0
+offset_top = 45.0
+offset_right = -23.0
+offset_bottom = 77.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(3.4225445, 3.4225445)
+max_value = 1000.0
+value = 1000.0
+texture_progress = ExtResource("5_r3bxh")

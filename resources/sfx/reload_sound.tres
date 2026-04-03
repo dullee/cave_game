@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="SoundData" format=3 uid="uid://b03npaq64x04n"]
+
+[ext_resource type="Script" uid="uid://bquejjm72kgnp" path="res://scripts/sound_data.gd" id="1_qx4py"]
+[ext_resource type="AudioStream" uid="uid://wdq7uib7jf5i" path="res://assets/sfx/reload.wav" id="2_edpxo"]
+
+[resource]
+script = ExtResource("1_qx4py")
+stream = ExtResource("2_edpxo")
+metadata/_custom_type_script = "uid://bquejjm72kgnp"

@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="SoundData" format=3 uid="uid://dt807uks3j0yw"]
+
+[ext_resource type="Script" uid="uid://bquejjm72kgnp" path="res://scripts/sound_data.gd" id="1_q5a3s"]
+[ext_resource type="AudioStream" uid="uid://5ktptmk0dtko" path="res://assets/sfx/laserShoot.wav" id="2_ptfd3"]
+
+[resource]
+script = ExtResource("1_q5a3s")
+stream = ExtResource("2_ptfd3")
+metadata/_custom_type_script = "uid://bquejjm72kgnp"

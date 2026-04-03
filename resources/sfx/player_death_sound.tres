@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="SoundData" format=3 uid="uid://cw1rhaoyr4rq5"]
+
+[ext_resource type="Script" uid="uid://bquejjm72kgnp" path="res://scripts/sound_data.gd" id="1_i6i8k"]
+[ext_resource type="AudioStream" uid="uid://lq2li5gqewt0" path="res://assets/sfx/player_death.wav" id="2_tuqr5"]
+
+[resource]
+script = ExtResource("1_i6i8k")
+stream = ExtResource("2_tuqr5")
+volume_db = -5.0
+metadata/_custom_type_script = "uid://bquejjm72kgnp"

@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://4u1ut0o86j77"]
+
+[node name="GlowViewport" type="SubViewport" unique_id=312812745]
+transparent_bg = true
+size = Vector2i(800, 800)
+render_target_update_mode = 1
+
+[node name="GlowRenderer" type="Node2D" parent="." unique_id=1469235950]
