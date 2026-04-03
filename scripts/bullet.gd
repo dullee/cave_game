@@ -18,7 +18,8 @@ var trail_points: Array[Vector2] = []
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)
 	linear_velocity = direction * SPEED
-
+	rotation = direction.angle()
+	
 func _process(delta: float) -> void:
 	trail_points.push_front(global_position)
 	if trail_points.size() > MAX_TRAIL_POINTS:
