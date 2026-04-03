@@ -38,6 +38,7 @@ light_mode = 1
 [node name="Boss" type="CharacterBody2D" unique_id=259502877]
 light_mask = 0
 collision_layer = 4
+collision_mask = 17
 script = ExtResource("1_dlmty")
 projectile_scene = ExtResource("2_qsl3t")
 shoot_interval = 0.2

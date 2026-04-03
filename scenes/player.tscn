@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://c5n7m12koykgm" path="res://scenes/sound_component.tscn" id="12_jej6c"]
 [ext_resource type="Script" uid="uid://cdyjeau03pfjg" path="res://scripts/input_manager.gd" id="13_jej6c"]
 [ext_resource type="Script" uid="uid://bhcrgq564tbf4" path="res://scripts/jetpack.gd" id="14_f1ej7"]
+[ext_resource type="Texture2D" uid="uid://d283jm1wao4io" path="res://assets/texture/jetpack.png" id="15_oprun"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_d2wvv"]
 properties/0/path = NodePath(".:position")
@@ -54,6 +55,21 @@ gradient = SubResource("Gradient_fjrip")
 fill = 1
 fill_from = Vector2(0.4869565, 0.50869566)
 fill_to = Vector2(0.8608696, 0.8282609)
+
+[sub_resource type="Animation" id="Animation_oprun"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerSprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
 
 [sub_resource type="Animation" id="Animation_3v2ag"]
 resource_name = "death_animation"
@@ -142,9 +158,28 @@ tracks/6/keys = {
 "values": [false]
 }
 
+[sub_resource type="Animation" id="Animation_f1ej7"]
+resource_name = "player_hurt"
+length = 0.5
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerSprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 0, 0, 1), Color(1, 1, 1, 1), Color(1, 0, 0, 1), Color(1, 1, 1, 1), Color(1, 0, 0, 1), Color(1, 1, 1, 1)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_jej6c"]
 _data = {
-&"death_animation": SubResource("Animation_3v2ag")
+&"RESET": SubResource("Animation_oprun"),
+&"death_animation": SubResource("Animation_3v2ag"),
+&"player_hurt": SubResource("Animation_f1ej7")
 }
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_jej6c"]
@@ -172,6 +207,7 @@ metadata/_edit_vertical_guides_ = [0.0]
 replication_config = SubResource("SceneReplicationConfig_d2wvv")
 
 [node name="PlayerName" type="Label" parent="." unique_id=1288498330]
+visible = false
 material = SubResource("CanvasItemMaterial_3v2ag")
 anchors_preset = 8
 anchor_left = 0.5
@@ -191,6 +227,7 @@ horizontal_alignment = 1
 metadata/_edit_use_anchors_ = true
 
 [node name="PlayerSprite" type="Sprite2D" parent="." unique_id=1431067514]
+z_index = 1
 position = Vector2(0.7, -6)
 scale = Vector2(2.54875, 2.5625002)
 texture = ExtResource("2_qhqgy")
@@ -209,6 +246,7 @@ position = Vector2(-1, 1)
 shape = SubResource("RectangleShape2D_y4r1p")
 
 [node name="pivot_arm" type="Node2D" parent="." unique_id=1466432969]
+z_index = 1
 position = Vector2(0, -5)
 script = ExtResource("3_d2wvv")
 
@@ -239,7 +277,7 @@ script = ExtResource("4_dqkch")
 data = ExtResource("5_qlg0r")
 
 [node name="HealthComponent" parent="." unique_id=2030201660 instance=ExtResource("7_fjrip")]
-max_health = 100
+max_health = 9999999
 
 [node name="HudCanvas" type="CanvasLayer" parent="." unique_id=1694449481]
 
@@ -320,13 +358,17 @@ script = ExtResource("13_jej6c")
 script = ExtResource("14_f1ej7")
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="Jetpack" unique_id=34895073]
-position = Vector2(-15.999999, 17.999998)
+position = Vector2(-13, 16)
 scale = Vector2(0.86054504, 0.86054504)
 lifetime = 0.7
 process_material = SubResource("ParticleProcessMaterial_jej6c")
 
 [node name="GPUParticles2D2" type="GPUParticles2D" parent="Jetpack" unique_id=346831706]
-position = Vector2(15, 17.999998)
+position = Vector2(12.999998, 16)
 scale = Vector2(0.86054504, 0.86054504)
 lifetime = 0.7
 process_material = SubResource("ParticleProcessMaterial_jej6c")
+
+[node name="Sprite2D" type="Sprite2D" parent="Jetpack" unique_id=65285609]
+scale = Vector2(1.1875, 1.1875)
+texture = ExtResource("15_oprun")

@@ -38,7 +38,9 @@ func _process(_delta: float) -> void:
 	if input_manager.is_action_pressed("mouse_1") and can_shoot and current_ammo > 0:
 		_do_shoot()
 		sound_component.play_sound("shoot")
-
+	if current_ammo <= 0:
+		reload() 
+	
 func _do_shoot():
 	current_ammo -= 1
 	ammo_changed.emit(current_ammo, data.max_ammo)

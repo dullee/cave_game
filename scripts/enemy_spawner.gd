@@ -21,7 +21,7 @@ func _ready() -> void:
 	await get_tree().process_frame
 	SignalBus.enemy_died.connect(_on_enemy_died)
 	# Start first wave after a short grace period
-	_wave_timer = 1000.0
+	_wave_timer = 1.0
 	set_process(true) 
 	
 func _process(delta: float) -> void:

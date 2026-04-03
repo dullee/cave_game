@@ -20,5 +20,5 @@ func _on_body_entered(body: Node2D) -> void:
 		return
 	if body.is_in_group("player"):
 		var knockback_dir = (body.global_position - global_position).normalized()
-		body.health_component.take_damage(damage)
+		body.take_damage(damage)
 		body.deal_knockback(knockback_dir)

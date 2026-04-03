@@ -7,14 +7,17 @@ const FLOOR_TILE := Vector2i(0, 1)
 const ORE_TILE   := Vector2i(0, 0)
 
 const BOSS_ROOM_WIDTH = 100
-const BOSS_ROOM_HEIGHT = 10
+const BOSS_ROOM_HEIGHT = 50
 
 var valid_spawn_tiles: Array[Vector2] = []  # world positions of valid floor tile
 var potential_spawn_tiles: Array[Vector2] = [] # can become valid spawn if tile above it is removed
 const MIN_SPAWN_INTERVAL = 5  # only store every Nth tile to spread them out
 
-var map_width := 100
-var map_height := 100
+@export var web_map_width := 100
+@export var web_map_height := 550
+
+@export var map_width := 100
+@export var map_height := 100
 var fill_threshold := 0.0
 var world_seed := 0
 var max_light_distance := 900.0
@@ -24,12 +27,15 @@ var _player: CharacterBody2D
 
 func _ready():
 	add_to_group("cave_generator")
-	# Only host generates the seed, clients receive it via loading overlay
-	if multiplayer.is_server():
-		world_seed = randi()
-		generate(world_seed)
+
 	if OS.get_name() == "Web":
 		await _prewarm_scenes()
+		map_height = web_map_height
+		map_width = web_map_width
+		
+	if multiplayer.is_server():
+		world_seed = randi()
+		generate(world_seed)	
 		
 func generate(_seed: int) -> void:
 

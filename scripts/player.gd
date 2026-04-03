@@ -20,6 +20,7 @@ const JUMP_CUT_MULT = 0.4  # multiplied when jump released early
 const GRAVITY = 1200.0
 const STEP_HEIGHT = 16
 
+var invincibility_time: float = 0.5
 var _invincible = false
 var is_stepping := false
 var double_jumped := false
@@ -52,8 +53,12 @@ func _unhandled_input(_event: InputEvent) -> void:
 	if input_manager.is_action_just_pressed("esc"):
 		SceneManager.open_pause()
 	if input_manager.is_action_just_pressed("mouse_wheel_up"):
+		if camera.zoom == Vector2(0,0):
+			camera.zoom += Vector2(0.1, 0.1)
 		camera.zoom += Vector2(0.1, 0.1)
 	if input_manager.is_action_just_pressed("mouse_wheel_down"):
+		if camera.zoom == Vector2(0,0):
+			camera.zoom -= Vector2(0.1, 0.1)
 		camera.zoom -= Vector2(0.1, 0.1)
 
 func _physics_process(delta: float) -> void:
@@ -164,7 +169,7 @@ func take_damage(amount: int) -> void:
 		return
 	health_component.take_damage(amount)
 	_start_invincibility()
-
+	animation_player.play("player_hurt")
 func deal_knockback(knockback_dir: Vector2) -> void:
 	var id = get_multiplayer_authority()
 	if id == multiplayer.get_unique_id():
@@ -197,7 +202,7 @@ func _start_invincibility() -> void:
 	# Flash to show invincibility
 	#var tween = create_tween()
 	#tween.tween_property(self, "modulate:a", 0.3, 0.1).set_loops(6)
-	await get_tree().create_timer(0.5).timeout  # invincibility duration
+	await get_tree().create_timer(invincibility_time).timeout  # invincibility duration
 	#modulate.a = 1.0
 	_invincible = false
 

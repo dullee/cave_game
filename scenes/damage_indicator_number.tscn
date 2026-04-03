@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://coptmddvenbqo"]
+
+[ext_resource type="Script" uid="uid://csacakuec3cwt" path="res://scripts/damage_indicator_number.gd" id="1_ofx3o"]
+[ext_resource type="FontFile" uid="uid://djt8p38kk5wp2" path="res://assets/fonts/square-deal/square-deal.ttf" id="2_uudbv"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_uudbv"]
+light_mode = 1
+
+[sub_resource type="LabelSettings" id="LabelSettings_6j6ny"]
+font = ExtResource("2_uudbv")
+font_size = 24
+outline_color = Color(0, 0, 0, 1)
+stacked_outline_count = 1
+stacked_shadow_count = 1
+stacked_shadow_0/offset = Vector2(1, 1)
+
+[node name="DamageIndicatorNumber" type="Node2D" unique_id=1765728247]
+z_index = 2
+script = ExtResource("1_ofx3o")
+
+[node name="Label" type="Label" parent="." unique_id=236339464]
+material = SubResource("CanvasItemMaterial_uudbv")
+offset_right = 19.0
+offset_bottom = 16.0
+theme_override_font_sizes/font_size = 16
+label_settings = SubResource("LabelSettings_6j6ny")
+horizontal_alignment = 1

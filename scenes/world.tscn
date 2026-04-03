@@ -59,6 +59,7 @@ tile_map_data = PackedByteArray("AAD9/wAAAAAAAAAAAAD+/wAAAAAAAAAAAAD//wAAAAAAAAA
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1528659640 groups=["tilemaplayer"]]
 z_as_relative = false
 tile_set = SubResource("TileSet_qfnet")
+occlusion_enabled = false
 script = ExtResource("2_71j4m")
 
 [node name="CaveGenerator" type="Node" parent="." unique_id=268849033 groups=["cave_generator"]]
@@ -87,7 +88,6 @@ spawn_limit = 10
 environment = SubResource("Environment_71j4m")
 
 [node name="DirectionalLight2D" type="DirectionalLight2D" parent="." unique_id=1907083694]
-visible = false
 energy = 0.93
 blend_mode = 1
 

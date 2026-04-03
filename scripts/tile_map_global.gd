@@ -1,6 +1,5 @@
 extends Node
 
-
 var main_layer: TileMapLayer
 var tile_size_x = 16
 const WALL_TILE := Vector2i(1, 0)
@@ -37,7 +36,6 @@ func destroy_tile(collision: KinematicCollision2D):
 	if not tile_data.get_custom_data("breakable"):
 		print("tile has no breakable data")
 		return
-	print("breaking tile")
 	replace_tile(collided_tile_pos, source_id, WALL_TILE)
 
 func destroy_tiles_in_radius(world_pos: Vector2, radius: float):
