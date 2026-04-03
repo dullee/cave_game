@@ -1,11 +1,11 @@
 extends Node
 
-const LOADING_MENU = "res://scenes/loading_menu.tscn"
-const START_MENU = "res://scenes/start_menu.tscn"
-const GAME_WORLD = "res://scenes/world.tscn"
-const SETTINGS_MENU = preload("res://scenes/options_menu.tscn")
-const PAUSE_MENU = preload("res://scenes/pause_menu.tscn")
-const DEATH_SCREEN = preload("res://scenes/death_screen.tscn")
+const LOADING_MENU = "res://UI/loading_menu.tscn"
+const START_MENU = "res://UI/start_menu.tscn"
+const GAME_WORLD = "res://scenes/world/world.tscn"
+const SETTINGS_MENU = preload("res://UI/options_menu.tscn")
+const PAUSE_MENU = preload("res://UI/pause_menu.tscn")
+const DEATH_SCREEN = preload("res://UI/death_screen.tscn")
 
 func open_loading_menu():
 	get_tree().change_scene_to_file(LOADING_MENU)

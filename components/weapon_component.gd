@@ -16,7 +16,7 @@ var current_ammo: int
 var reload_time: float
 var is_reloading := false
 #------------------------test----------------------
-var dynamite = preload("res://scenes/dynamite.tscn")
+var dynamite = preload("res://entities/weapons/dynamite.tscn")
 #----------------------------------------------------
 func _ready() -> void:
 	SignalBus.input_disabled.connect(_on_inputs_disabled)

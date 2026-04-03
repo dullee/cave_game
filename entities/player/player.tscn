@@ -1,20 +1,20 @@
 [gd_scene format=3 uid="uid://2bk8cuyl4x35"]
 
-[ext_resource type="Script" uid="uid://dfnl7hqbr3qtr" path="res://scripts/player.gd" id="1_g2els"]
-[ext_resource type="Texture2D" uid="uid://dokupuvnk7luw" path="res://assets/texture/player.png" id="2_qhqgy"]
-[ext_resource type="Script" uid="uid://dhmi7ka05wcgj" path="res://scripts/pivot_arm.gd" id="3_d2wvv"]
-[ext_resource type="Texture2D" uid="uid://u0w6imn5h5vu" path="res://assets/texture/revolver.png" id="3_qhqgy"]
-[ext_resource type="Script" uid="uid://byq5my4d3qu7f" path="res://scripts/weapon_component.gd" id="4_dqkch"]
-[ext_resource type="Resource" uid="uid://6fe368cwxdby" path="res://resources/weapon_data.tres" id="5_qlg0r"]
-[ext_resource type="PackedScene" uid="uid://b2sdkpkgw7a5c" path="res://scenes/health_component.tscn" id="7_fjrip"]
-[ext_resource type="Script" uid="uid://p4fmppr1bfbd" path="res://scripts/hud.gd" id="8_y4r1p"]
-[ext_resource type="Texture2D" uid="uid://b1lpb6ua51df6" path="res://assets/texture/health_over.png" id="9_d2wvv"]
-[ext_resource type="Texture2D" uid="uid://gv2uhdtmeqkx" path="res://assets/texture/health_progress.png" id="10_3v2ag"]
-[ext_resource type="Script" uid="uid://0gmtia68375y" path="res://scripts/network_manager.gd" id="12_3v2ag"]
-[ext_resource type="PackedScene" uid="uid://c5n7m12koykgm" path="res://scenes/sound_component.tscn" id="12_jej6c"]
-[ext_resource type="Script" uid="uid://cdyjeau03pfjg" path="res://scripts/input_manager.gd" id="13_jej6c"]
-[ext_resource type="Script" uid="uid://bhcrgq564tbf4" path="res://scripts/jetpack.gd" id="14_f1ej7"]
-[ext_resource type="Texture2D" uid="uid://d283jm1wao4io" path="res://assets/texture/jetpack.png" id="15_oprun"]
+[ext_resource type="Script" uid="uid://dfnl7hqbr3qtr" path="res://entities/player/player.gd" id="1_gx6sm"]
+[ext_resource type="Texture2D" uid="uid://dokupuvnk7luw" path="res://assets/texture/player.png" id="2_yqrof"]
+[ext_resource type="Script" uid="uid://dhmi7ka05wcgj" path="res://entities/player/pivot_arm.gd" id="3_3wlsy"]
+[ext_resource type="Texture2D" uid="uid://u0w6imn5h5vu" path="res://assets/texture/revolver.png" id="4_b2kln"]
+[ext_resource type="Script" uid="uid://byq5my4d3qu7f" path="res://components/weapon_component.gd" id="5_we0b7"]
+[ext_resource type="Resource" uid="uid://6fe368cwxdby" path="res://entities/weapons/weapon_data.tres" id="6_mtric"]
+[ext_resource type="PackedScene" uid="uid://b2sdkpkgw7a5c" path="res://components/health_component.tscn" id="7_eyb6c"]
+[ext_resource type="Script" uid="uid://p4fmppr1bfbd" path="res://UI/hud.gd" id="8_221hk"]
+[ext_resource type="Texture2D" uid="uid://b1lpb6ua51df6" path="res://assets/texture/health_over.png" id="9_ghoj8"]
+[ext_resource type="Texture2D" uid="uid://gv2uhdtmeqkx" path="res://assets/texture/health_progress.png" id="10_t1t22"]
+[ext_resource type="Script" uid="uid://0gmtia68375y" path="res://scripts/network_manager.gd" id="11_50fht"]
+[ext_resource type="PackedScene" uid="uid://c5n7m12koykgm" path="res://components/sound_component.tscn" id="12_wuv6x"]
+[ext_resource type="Script" uid="uid://cdyjeau03pfjg" path="res://scripts/input_manager.gd" id="13_qpopc"]
+[ext_resource type="Script" uid="uid://bhcrgq564tbf4" path="res://entities/player/jetpack.gd" id="14_wq0jh"]
+[ext_resource type="Texture2D" uid="uid://d283jm1wao4io" path="res://assets/texture/jetpack.png" id="15_gt4e4"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_d2wvv"]
 properties/0/path = NodePath(".:position")
@@ -200,7 +200,7 @@ collision_layer = 2
 collision_mask = 17
 floor_constant_speed = true
 floor_snap_length = 16.0
-script = ExtResource("1_g2els")
+script = ExtResource("1_gx6sm")
 metadata/_edit_vertical_guides_ = [0.0]
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=74005596]
@@ -230,7 +230,7 @@ metadata/_edit_use_anchors_ = true
 z_index = 1
 position = Vector2(0.7, -6)
 scale = Vector2(2.54875, 2.5625002)
-texture = ExtResource("2_qhqgy")
+texture = ExtResource("2_yqrof")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=179629260]
 position = Vector2(-0.9999995, 3.035001)
@@ -248,7 +248,7 @@ shape = SubResource("RectangleShape2D_y4r1p")
 [node name="pivot_arm" type="Node2D" parent="." unique_id=1466432969]
 z_index = 1
 position = Vector2(0, -5)
-script = ExtResource("3_d2wvv")
+script = ExtResource("3_3wlsy")
 
 [node name="muzzle" type="Marker2D" parent="pivot_arm" unique_id=815762873]
 position = Vector2(48, 0)
@@ -256,7 +256,7 @@ position = Vector2(48, 0)
 [node name="GunSprite" type="Sprite2D" parent="pivot_arm/muzzle" unique_id=1063926474]
 position = Vector2(-33, -13)
 scale = Vector2(2.7499998, 2.7500002)
-texture = ExtResource("3_qhqgy")
+texture = ExtResource("4_b2kln")
 offset = Vector2(0, 4.68)
 
 [node name="RayCast2D" type="RayCast2D" parent="pivot_arm/muzzle" unique_id=1765960592]
@@ -273,10 +273,10 @@ energy = 2.0
 texture = SubResource("GradientTexture2D_smehm")
 
 [node name="WeaponComponent" type="Node" parent="." unique_id=1593560909]
-script = ExtResource("4_dqkch")
-data = ExtResource("5_qlg0r")
+script = ExtResource("5_we0b7")
+data = ExtResource("6_mtric")
 
-[node name="HealthComponent" parent="." unique_id=2030201660 instance=ExtResource("7_fjrip")]
+[node name="HealthComponent" parent="." unique_id=2030201660 instance=ExtResource("7_eyb6c")]
 max_health = 9999999
 
 [node name="HudCanvas" type="CanvasLayer" parent="." unique_id=1694449481]
@@ -295,7 +295,7 @@ offset_bottom = 521.5
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-script = ExtResource("8_y4r1p")
+script = ExtResource("8_221hk")
 
 [node name="HealthBar" type="TextureProgressBar" parent="HudCanvas/Hud" unique_id=1061301762]
 layout_mode = 1
@@ -311,8 +311,8 @@ scale = Vector2(1.4928156, 1.4928156)
 value = 100.0
 fill_mode = 1
 nine_patch_stretch = true
-texture_over = ExtResource("9_d2wvv")
-texture_progress = ExtResource("10_3v2ag")
+texture_over = ExtResource("9_ghoj8")
+texture_progress = ExtResource("10_t1t22")
 
 [node name="HealthLabel" type="Label" parent="HudCanvas/Hud" unique_id=929602989]
 layout_mode = 1
@@ -340,22 +340,22 @@ horizontal_alignment = 1
 [node name="GunSprite2" type="Sprite2D" parent="HudCanvas/Hud" unique_id=1464726158]
 position = Vector2(1307, 828.00006)
 scale = Vector2(14.858476, 14.858477)
-texture = ExtResource("3_qhqgy")
+texture = ExtResource("4_b2kln")
 offset = Vector2(0, 4.68)
 
 [node name="NetworkManager" type="Node" parent="." unique_id=1830414190]
-script = ExtResource("12_3v2ag")
+script = ExtResource("11_50fht")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=852429731]
 libraries/ = SubResource("AnimationLibrary_jej6c")
 
-[node name="SoundComponent" parent="." unique_id=132270122 instance=ExtResource("12_jej6c")]
+[node name="SoundComponent" parent="." unique_id=132270122 instance=ExtResource("12_wuv6x")]
 
 [node name="InputManager" type="Node" parent="." unique_id=405760973]
-script = ExtResource("13_jej6c")
+script = ExtResource("13_qpopc")
 
 [node name="Jetpack" type="Node2D" parent="." unique_id=696613967]
-script = ExtResource("14_f1ej7")
+script = ExtResource("14_wq0jh")
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="Jetpack" unique_id=34895073]
 position = Vector2(-13, 16)
@@ -371,4 +371,4 @@ process_material = SubResource("ParticleProcessMaterial_jej6c")
 
 [node name="Sprite2D" type="Sprite2D" parent="Jetpack" unique_id=65285609]
 scale = Vector2(1.1875, 1.1875)
-texture = ExtResource("15_oprun")
+texture = ExtResource("15_gt4e4")

@@ -1,13 +1,13 @@
 [gd_scene format=3 uid="uid://cfc8b2a0fvinb"]
 
-[ext_resource type="Script" uid="uid://b3wtcc3vwct8x" path="res://scripts/boss.gd" id="1_dlmty"]
+[ext_resource type="Script" uid="uid://b3wtcc3vwct8x" path="res://entities/enemies/boss/boss.gd" id="1_dlmty"]
 [ext_resource type="Texture2D" uid="uid://bofvuhk3prqya" path="res://assets/texture/icon.svg" id="2_jncid"]
-[ext_resource type="Script" uid="uid://cn0byti61w6g8" path="res://scripts/tentacle.gd" id="2_neq0i"]
-[ext_resource type="PackedScene" uid="uid://r1r2lk1x8kcv" path="res://scenes/boss_projectile.tscn" id="2_qsl3t"]
-[ext_resource type="Script" uid="uid://dvy4nbk8xdwwj" path="res://scripts/hit_box.gd" id="2_wqpjq"]
-[ext_resource type="PackedScene" uid="uid://b2sdkpkgw7a5c" path="res://scenes/health_component.tscn" id="4_qnbj4"]
+[ext_resource type="Script" uid="uid://cn0byti61w6g8" path="res://entities/enemies/boss/tentacle.gd" id="2_neq0i"]
+[ext_resource type="PackedScene" uid="uid://r1r2lk1x8kcv" path="res://entities/enemies/boss/boss_projectile.tscn" id="2_qsl3t"]
+[ext_resource type="Script" uid="uid://dvy4nbk8xdwwj" path="res://entities/enemies/boss/boss_hitbox.gd" id="2_wqpjq"]
+[ext_resource type="PackedScene" uid="uid://b2sdkpkgw7a5c" path="res://components/health_component.tscn" id="4_qnbj4"]
 [ext_resource type="Texture2D" uid="uid://bg8gdqrw07vm4" path="res://assets/texture/health_bar_green.png" id="5_r3bxh"]
-[ext_resource type="PackedScene" uid="uid://c5n7m12koykgm" path="res://scenes/sound_component.tscn" id="7_2cdgk"]
+[ext_resource type="PackedScene" uid="uid://c5n7m12koykgm" path="res://components/sound_component.tscn" id="7_2cdgk"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_neq0i"]
 radius = 74.0

@@ -30,7 +30,7 @@ func _request_boss_spawn() -> void:
 		return
 	boss_spawned = true
 	var boss_node = get_tree().get_first_node_in_group("boss_node")
-	var boss_scene = preload("res://scenes/boss.tscn")
+	var boss_scene = preload("res://entities/enemies/boss/boss.tscn")
 	var boss = boss_scene.instantiate()
 	boss.global_position = boss_spawn_point.global_position
 

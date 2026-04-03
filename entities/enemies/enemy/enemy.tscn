@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://c7fvxqisjt71m"]
 
-[ext_resource type="Script" uid="uid://c01jfli6ixt6q" path="res://scripts/enemy.gd" id="1_55jtl"]
+[ext_resource type="Script" uid="uid://c01jfli6ixt6q" path="res://entities/enemies/enemy/enemy.gd" id="1_55jtl"]
 [ext_resource type="Texture2D" uid="uid://o0go1tveko4t" path="res://assets/texture/mummy.png" id="2_4ra3w"]
-[ext_resource type="PackedScene" uid="uid://b2sdkpkgw7a5c" path="res://scenes/health_component.tscn" id="3_mpr68"]
-[ext_resource type="PackedScene" uid="uid://c5n7m12koykgm" path="res://scenes/sound_component.tscn" id="4_5uy6h"]
+[ext_resource type="PackedScene" uid="uid://b2sdkpkgw7a5c" path="res://components/health_component.tscn" id="3_mpr68"]
+[ext_resource type="PackedScene" uid="uid://c5n7m12koykgm" path="res://components/sound_component.tscn" id="4_5uy6h"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_55jtl"]
 size = Vector2(24, 60.5)

@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://crsv7irforyye"]
 
-[ext_resource type="Script" uid="uid://t2bewmqmr481" path="res://scripts/dynamite.gd" id="1_rst6a"]
-[ext_resource type="PackedScene" uid="uid://c5n7m12koykgm" path="res://scenes/sound_component.tscn" id="2_l6oux"]
-[ext_resource type="Resource" uid="uid://calhppgy1nnw3" path="res://resources/sfx/explosion_sound.tres" id="3_sbdca"]
+[ext_resource type="Script" uid="uid://t2bewmqmr481" path="res://entities/weapons/dynamite.gd" id="1_n0lvl"]
+[ext_resource type="PackedScene" uid="uid://c5n7m12koykgm" path="res://components/sound_component.tscn" id="2_36iqs"]
+[ext_resource type="Resource" uid="uid://calhppgy1nnw3" path="res://resources/sfx/explosion_sound.tres" id="3_ca6ti"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oncar"]
 
@@ -130,7 +130,7 @@ color_ramp = SubResource("GradientTexture1D_l6oux")
 [node name="Dynamite" type="RigidBody2D" unique_id=808256269]
 collision_layer = 8
 collision_mask = 17
-script = ExtResource("1_rst6a")
+script = ExtResource("1_n0lvl")
 
 [node name="Sprite2D" type="Polygon2D" parent="." unique_id=896598523]
 scale = Vector2(0.48092166, 1.7899871)
@@ -178,7 +178,7 @@ one_shot = true
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_sbdca")
 
-[node name="SoundComponent" parent="." unique_id=132270122 instance=ExtResource("2_l6oux")]
+[node name="SoundComponent" parent="." unique_id=132270122 instance=ExtResource("2_36iqs")]
 sounds = {
-"explosion": ExtResource("3_sbdca")
+"explosion": ExtResource("3_ca6ti")
 }

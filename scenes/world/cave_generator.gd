@@ -115,8 +115,8 @@ func remove_ore_light(pos):
 
 func _prewarm_scenes() -> void:
 	var scenes_to_prewarm = [
-		preload("res://scenes/bullet.tscn"),
-		preload("res://scenes/dynamite.tscn"),
+		preload("res://entities/weapons/bullet.tscn"),
+		preload("res://entities/weapons/dynamite.tscn"),
 	]
 	for scene in scenes_to_prewarm:
 		var instance = scene.instantiate()

@@ -170,6 +170,7 @@ func take_damage(amount: int) -> void:
 	health_component.take_damage(amount)
 	_start_invincibility()
 	animation_player.play("player_hurt")
+	
 func deal_knockback(knockback_dir: Vector2) -> void:
 	var id = get_multiplayer_authority()
 	if id == multiplayer.get_unique_id():

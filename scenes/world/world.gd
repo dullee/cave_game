@@ -1,6 +1,6 @@
 extends Node2D
 
-const PlayerScene = preload("res://scenes/player.tscn")
+const PlayerScene = preload("res://entities/player/player.tscn")
 
 @onready var player_camera: Camera2D = $Players/PlayerCamera
 @onready var players_node: Node = $Players
@@ -23,8 +23,8 @@ func _ready():
 		
 func _prewarm_scenes() -> void:
 	var scenes_to_prewarm = [
-		preload("res://scenes/bullet.tscn"),
-		preload("res://scenes/dynamite.tscn"),
+		preload("res://entities/weapons/bullet.tscn"),
+		preload("res://entities/weapons/dynamite.tscn"),
 	]
 	for scene in scenes_to_prewarm:
 		var instance = scene.instantiate()
