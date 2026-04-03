@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://crsv7irforyye"]
 
 [ext_resource type="Script" uid="uid://t2bewmqmr481" path="res://scripts/dynamite.gd" id="1_rst6a"]
+[ext_resource type="PackedScene" uid="uid://c5n7m12koykgm" path="res://scenes/sound_component.tscn" id="2_l6oux"]
+[ext_resource type="Resource" uid="uid://calhppgy1nnw3" path="res://resources/sfx/explosion_sound.tres" id="3_sbdca"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oncar"]
 
@@ -80,6 +82,7 @@ fill_to = Vector2(1, 1)
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_rst6a"]
 blend_mode = 1
+light_mode = 1
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_l6oux"]
 particle_flag_align_y = true
@@ -96,6 +99,9 @@ scale_max = 5.0
 color = Color(1, 0.16078432, 0, 0.69803923)
 hue_variation_min = -0.010000022
 hue_variation_max = 0.20999998
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_l6oux"]
+light_mode = 1
 
 [sub_resource type="Gradient" id="Gradient_ys8y4"]
 offsets = PackedFloat32Array(0, 0.49590164)
@@ -136,6 +142,7 @@ scale = Vector2(0.48092166, 1.7899871)
 shape = SubResource("RectangleShape2D_oncar")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=354968881]
+visible = false
 collision_layer = 8
 collision_mask = 6
 
@@ -163,9 +170,15 @@ speed_scale = 1.9
 process_material = SubResource("ParticleProcessMaterial_l6oux")
 
 [node name="ExplosionParticle" type="GPUParticles2D" parent="." unique_id=118671553]
+material = SubResource("CanvasItemMaterial_l6oux")
 emitting = false
 amount = 23
 lifetime = 0.5
 one_shot = true
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_sbdca")
+
+[node name="SoundComponent" parent="." unique_id=132270122 instance=ExtResource("2_l6oux")]
+sounds = {
+"explosion": ExtResource("3_sbdca")
+}

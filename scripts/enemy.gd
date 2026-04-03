@@ -3,13 +3,14 @@ extends CharacterBody2D
 @onready var health_component: HealthComponent = $HealthComponent
 @onready var arm_collision: CollisionShape2D = $Area2D/ArmCollision
 @onready var sprite_2d: Sprite2D = $Sprite2D
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var sound_component: SoundComponent = $SoundComponent
 
 const SPEED = 70.0
 const JUMP_VELOCITY = -400.0
 const GRAVITY = 900.0
 var direction := 0.0
 
-var health = 100
 var player: CharacterBody2D
 var jump_timer = 0.0
 var attack_damage = 15
@@ -48,7 +49,9 @@ func _physics_process(delta: float) -> void:
 	
 func take_damage(amount: int):
 	health_component.take_damage(amount)
-		
+	animation_player.play("on_hit")
+	sound_component.play_sound("on_hit")
+	
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.has_method("take_damage") and can_attack:
 		var knockback_dir = (body.global_position - global_position).normalized()

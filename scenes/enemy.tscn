@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://c01jfli6ixt6q" path="res://scripts/enemy.gd" id="1_55jtl"]
 [ext_resource type="Texture2D" uid="uid://o0go1tveko4t" path="res://assets/texture/mummy.png" id="2_4ra3w"]
 [ext_resource type="PackedScene" uid="uid://b2sdkpkgw7a5c" path="res://scenes/health_component.tscn" id="3_mpr68"]
+[ext_resource type="PackedScene" uid="uid://c5n7m12koykgm" path="res://scenes/sound_component.tscn" id="4_5uy6h"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_55jtl"]
 size = Vector2(24, 60.5)
@@ -21,6 +22,27 @@ properties/1/path = NodePath("HealthComponent:health")
 properties/1/spawn = true
 properties/1/replication_mode = 1
 
+[sub_resource type="Animation" id="Animation_5uy6h"]
+resource_name = "on_hit"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(0.46812767, 0.46812773, 0.46812773, 1), Color(1, 1, 1, 1), Color(0.46812767, 0.46812773, 0.46812773, 1), Color(1, 1, 1, 1), Color(0.46812767, 0.46812773, 0.46812773, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_c4w8v"]
+_data = {
+&"on_hit": SubResource("Animation_5uy6h")
+}
+
 [node name="Enemy" type="CharacterBody2D" unique_id=569548156 groups=["enemy"]]
 z_index = 1
 collision_layer = 4
@@ -36,6 +58,7 @@ scale = Vector2(2.375, 2.375)
 texture = ExtResource("2_4ra3w")
 
 [node name="HealthComponent" parent="." unique_id=2030201660 instance=ExtResource("3_mpr68")]
+max_health = 100
 
 [node name="Area2D" type="Area2D" parent="." unique_id=898427238]
 collision_layer = 4
@@ -53,5 +76,11 @@ shape = SubResource("RectangleShape2D_5uy6h")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1952010994]
 replication_config = SubResource("SceneReplicationConfig_4ra3w")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2111175868]
+libraries/ = SubResource("AnimationLibrary_c4w8v")
+
+[node name="SoundComponent" parent="." unique_id=132270122 instance=ExtResource("4_5uy6h")]
+sounds = {}
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
