@@ -13,7 +13,10 @@ extends CharacterBody2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var jetpack: Node2D = $Jetpack
 
-
+@export var knockback_force = 300.0
+var _knockback_velocity := Vector2.ZERO
+var knockback_time := 0.2
+var knockback_timer := 0.0
 const SPEED = 300.0
 const JUMP_VELOCITY = -500.0
 const JUMP_CUT_MULT = 0.4  # multiplied when jump released early
@@ -62,10 +65,11 @@ func _unhandled_input(_event: InputEvent) -> void:
 		camera.zoom -= Vector2(0.1, 0.1)
 
 func _physics_process(delta: float) -> void:
-	if not is_multiplayer_authority():
+	if not is_multiplayer_authority() or not input_manager.is_enabled():
 		return
-	if not input_manager.is_enabled():
-		return
+	_knockback_velocity = _knockback_velocity.move_toward(Vector2.ZERO, knockback_force * 3.0 * delta)
+	if _knockback_velocity.length() > 10:
+		print("knockback active: ", _knockback_velocity)
 	match state:
 		State.IDLE: _state_idle(delta)
 		State.WALK: _state_walk(delta)
@@ -80,12 +84,12 @@ func _apply_gravity(delta: float) -> void:
 		
 func _handle_horizontal(_delta: float) -> void:
 	var direction := input_manager.get_axis("a", "d")
-	velocity.x = direction * SPEED
+	# Blend player input with decaying knockback
+	velocity.x = direction * SPEED + _knockback_velocity.x
 	if direction != 0 and is_on_floor():
 		_try_step_up(direction)
 
 func _state_idle(delta: float) -> void:
-	velocity.x = 0
 	_apply_gravity(delta)
 	move_and_slide()
 	if not is_on_floor():
@@ -99,6 +103,7 @@ func _state_idle(delta: float) -> void:
 func _state_walk(delta: float) -> void:
 	_apply_gravity(delta)
 	_handle_horizontal(delta)
+
 	move_and_slide()
 	if not is_on_floor():
 		state = State.FALL
@@ -111,9 +116,11 @@ func _state_walk(delta: float) -> void:
 func _state_jump(delta: float) -> void:
 	_apply_gravity(delta)
 	_handle_horizontal(delta)
+	
 	# Jump cut — let go of space early for a shorter jump
 	if input_manager.is_action_just_released("space") and velocity.y < 0:
 		velocity.y *= JUMP_CUT_MULT
+
 	move_and_slide()
 	if velocity.y >= 0:
 		state = State.FALL
@@ -123,7 +130,8 @@ func _state_jump(delta: float) -> void:
 func _state_fall(delta: float) -> void:
 	_apply_gravity(delta)
 	_handle_horizontal(delta)
-	# Double jump
+	velocity.y += _knockback_velocity.y  # ← apply vertical knockback
+	_knockback_velocity.y = 0.0          # ← consume it immediately
 	if input_manager.is_action_just_pressed("space") and not double_jumped:
 		double_jumped = true
 		_jump()
@@ -132,6 +140,7 @@ func _state_fall(delta: float) -> void:
 	move_and_slide()
 	if is_on_floor():
 		double_jumped = false
+		_knockback_velocity = Vector2.ZERO  # ← clear on landing
 		state = State.IDLE
 		if jetpack:
 			jetpack.on_landed()
@@ -186,18 +195,21 @@ func apply_knockback(knockback_dir: Vector2) -> void:
 	_do_knockback(knockback_dir)
 
 func _do_knockback(knockback_dir: Vector2) -> void:
+	print("knockback received | dir: ", knockback_dir, 
+		  " | is_authority: ", is_multiplayer_authority())
 	_apply_knockback(knockback_dir)
 	
 func _apply_knockback(direction: Vector2) -> void:
 	if not is_multiplayer_authority():
 		return
-	# Always knock upward slightly so player gets airtime to escape
-	var knockback = direction * 600.0
-	knockback.y = min(knockback.y, -200.0)
-	velocity = knockback
+	print("applying knockback | dir: ", direction, " force: ", knockback_force)
 	state = State.FALL
 	sound_component.play_sound("player_hit")
-
+	_knockback_velocity = direction.normalized() * knockback_force
+	_knockback_velocity.y = -abs(knockback_force * 0.6)
+	print("knockback velocity set to: ", _knockback_velocity)
+	velocity = _knockback_velocity
+	
 func _start_invincibility() -> void:
 	_invincible = true
 	# Flash to show invincibility

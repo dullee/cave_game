@@ -9,7 +9,7 @@
 size = Vector2(24, 60.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mpr68"]
-size = Vector2(0.819826, 27.839365)
+size = Vector2(0.7957135, 30.014315)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5uy6h"]
 size = Vector2(14, 12)
@@ -35,7 +35,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 0,
-"values": [Color(0.46812767, 0.46812773, 0.46812773, 1), Color(1, 1, 1, 1), Color(0.46812767, 0.46812773, 0.46812773, 1), Color(1, 1, 1, 1), Color(0.46812767, 0.46812773, 0.46812773, 1), Color(1, 1, 1, 1)]
+"values": [Color(0, 0, 0, 1), Color(1, 1, 1, 1), Color(0, 0, 0, 1), Color(1, 1, 1, 1), Color(0, 0, 0, 1), Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_c4w8v"]
@@ -65,7 +65,7 @@ collision_layer = 4
 collision_mask = 10
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=314810688]
-position = Vector2(-0.99999994, 6)
+position = Vector2(-0.49999985, 7.4999995)
 rotation = 3.1415925
 scale = Vector2(41.472214, 2.298903)
 shape = SubResource("RectangleShape2D_mpr68")
@@ -82,5 +82,9 @@ libraries/ = SubResource("AnimationLibrary_c4w8v")
 
 [node name="SoundComponent" parent="." unique_id=132270122 instance=ExtResource("4_5uy6h")]
 sounds = {}
+
+[node name="RayCast2D" type="RayCast2D" parent="." unique_id=1048248601]
+target_position = Vector2(22, 0)
+collision_mask = 6
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

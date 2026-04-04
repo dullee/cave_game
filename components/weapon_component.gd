@@ -30,16 +30,14 @@ func _unhandled_input(_event: InputEvent) -> void:
 		_throw_item.rpc()
 	if input_manager.is_action_just_pressed("r") and not is_reloading and current_ammo < data.max_ammo:
 		reload()
-		print("reloading")
 		
 func _process(_delta: float) -> void:
 	if not is_multiplayer_authority() :
 		return
 	if input_manager.is_action_pressed("mouse_1") and can_shoot and current_ammo > 0:
 		_do_shoot()
-		print("shooting")
-		
-	if current_ammo <= 0 and not is_reloading:  # ← guard here too
+
+	if current_ammo <= 0 and not is_reloading:
 		reload()
 	
 func _do_shoot():

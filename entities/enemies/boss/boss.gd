@@ -20,7 +20,6 @@ var state = State.IDLE
 
 var _shoot_timer := 0.0
 
-
 var target: Node2D = null
 var tentacles_alive: int = 2
 
@@ -63,12 +62,11 @@ func _state_enraged(delta: float) -> void:
 	if not is_instance_valid(target):
 		_find_target()
 		return
-	print("Boss enraged")
 	# Enraged — chase AND shoot at the same time
 	_move_toward_target(delta, SPEED * 2.0)
 	_shoot_timer -= delta
 	if _shoot_timer <= 0.0:
-		_shoot_timer = shoot_interval * 0.5  # shoot faster when enraged
+		_shoot_timer = shoot_interval * 0.9  # shoot faster when enraged
 		_do_shoot()
 
 func _move_toward_target(delta: float, speed: float) -> void:
@@ -90,7 +88,6 @@ func _find_target() -> void:
 		if dist < closest_dist:
 			closest_dist = dist
 			target = p
-
 
 func _state_shoot(delta: float) -> void:
 	if not is_instance_valid(target):
