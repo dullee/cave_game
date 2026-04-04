@@ -50,20 +50,10 @@ func get_health_component() -> HealthComponent: return health_component
 func get_weapon_component() -> WeaponComponent: return weapon_component
 
 func _unhandled_input(_event: InputEvent) -> void:
-	var camera = get_tree().get_first_node_in_group("camera")
 	if not is_multiplayer_authority():
 		return
-	
 	if input_manager.is_action_just_pressed("esc"):
 		SceneManager.open_pause()
-	if input_manager.is_action_just_pressed("mouse_wheel_up"):
-		if camera.zoom == Vector2(0,0):
-			camera.zoom += Vector2(0.1, 0.1)
-		camera.zoom += Vector2(0.1, 0.1)
-	if input_manager.is_action_just_pressed("mouse_wheel_down"):
-		if camera.zoom == Vector2(0,0):
-			camera.zoom -= Vector2(0.1, 0.1)
-		camera.zoom -= Vector2(0.1, 0.1)
 
 func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority() or not input_manager.is_enabled():
@@ -203,8 +193,6 @@ func apply_knockback(knockback_dir: Vector2) -> void:
 	_do_knockback(knockback_dir)
 
 func _do_knockback(knockback_dir: Vector2) -> void:
-	print("knockback received | dir: ", knockback_dir, 
-		  " | is_authority: ", is_multiplayer_authority())
 	_apply_knockback(knockback_dir)
 	
 func _apply_knockback(direction: Vector2) -> void:

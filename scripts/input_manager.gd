@@ -9,7 +9,7 @@ func _ready() -> void:
 	SignalBus.input_enabled.connect(func(): _enabled = true)
 
 func is_enabled() -> bool:
-	return _enabled and get_parent().is_multiplayer_authority()
+	return SignalBus.is_input_enabled() and get_parent().is_multiplayer_authority()
 
 func is_action_pressed(action: StringName) -> bool:
 	return _enabled and Input.is_action_pressed(action)
