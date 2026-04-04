@@ -6,6 +6,10 @@ extends Node2D
 @onready var muzzle: Marker2D = $muzzle
 @onready var gun_sprite: Sprite2D = $muzzle/GunSprite
 var pivot_arm: Node2D = self
+var muzzle_default_pos: Vector2
+
+func _ready() -> void:
+	muzzle_default_pos = muzzle.position
 
 func _process(_delta: float) -> void:
 	if get_parent().is_multiplayer_authority() and input_manager.is_enabled():
@@ -25,5 +29,4 @@ func _physics_process(delta: float) -> void:
 		if ray_cast_2d.is_colliding():
 			muzzle.position = muzzle.position.move_toward(pivot_arm.position, delta * 100.0)
 		else:
-			var default_pos = Vector2(48, muzzle.position.y)
-			muzzle.position = muzzle.position.move_toward(default_pos, delta * 200.0)
+			muzzle.position = muzzle.position.move_toward(muzzle_default_pos, delta * 200.0)

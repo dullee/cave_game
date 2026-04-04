@@ -36,18 +36,20 @@ func _process(_delta: float) -> void:
 	arm_collision.position.x = abs(arm_collision.position.x) * direction
 	
 func _physics_process(delta: float) -> void:
-	player = _get_closest_player()
 	if not player:
+		player = _get_closest_player()
 		return
-
 	velocity.y += GRAVITY * delta
 	direction = sign(player.global_position.x - global_position.x)
 	var dist = abs(player.global_position.x - global_position.x)
+	
 	if dist > ATTACK_RANGE:
-		velocity.x = direction * SPEED
+		velocity.x = direction * SPEED  # move toward player
+	elif dist < ATTACK_RANGE * 0.5:
+		velocity.x = -direction * SPEED  # too close, back away
 	else:
-		velocity.x = move_toward(velocity.x, 0.0, SPEED)  # slow to stop
-		
+		velocity.x = move_toward(velocity.x, 0.0, SPEED)  # in range, stop
+	
 	jump_timer -= delta
 	if is_on_floor():
 		if player.global_position.y < global_position.y - 32 and jump_timer <= 0:
@@ -56,7 +58,6 @@ func _physics_process(delta: float) -> void:
 	if is_on_wall():
 		velocity.y = JUMP_VELOCITY
 	_apply_separation(delta)
-
 	move_and_slide()
 
 func _get_closest_player() -> CharacterBody2D:
