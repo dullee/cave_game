@@ -12,12 +12,14 @@ const JUMP_VELOCITY = -400.0
 const GRAVITY = 900.0
 var direction := 0.0
 
+
 const SEPARATION_FORCE := 200.0
 const SEPARATION_DISTANCE := 40.0  
 
 var _last_direction := 1.0
 var player: CharacterBody2D
 var jump_timer = 0.0
+const ATTACK_RANGE := 40.0
 var attack_damage = 15
 var attack_cooldown: float = 0.12
 var can_attack = true
@@ -40,7 +42,12 @@ func _physics_process(delta: float) -> void:
 
 	velocity.y += GRAVITY * delta
 	direction = sign(player.global_position.x - global_position.x)
-	velocity.x = direction * SPEED
+	var dist = abs(player.global_position.x - global_position.x)
+	if dist > ATTACK_RANGE:
+		velocity.x = direction * SPEED
+	else:
+		velocity.x = move_toward(velocity.x, 0.0, SPEED)  # slow to stop
+		
 	jump_timer -= delta
 	if is_on_floor():
 		if player.global_position.y < global_position.y - 32 and jump_timer <= 0:
@@ -103,8 +110,8 @@ func attack(entity) -> void:
 	can_attack = false
 	var knockback_dir = (entity.global_position - global_position).normalized()
 	if entity.has_method("take_damage"):
-		entity.take_damage(attack_damage)
-	if entity.has_method("deal_knockback"):
 		entity.deal_knockback(knockback_dir)
+	if entity.has_method("deal_knockback"):
+		entity.take_damage(attack_damage)
 	await get_tree().create_timer(attack_cooldown).timeout
 	can_attack = true

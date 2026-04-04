@@ -201,6 +201,7 @@ collision_mask = 17
 floor_constant_speed = true
 floor_snap_length = 16.0
 script = ExtResource("1_gx6sm")
+knockback_up_multiplier = 0.2
 metadata/_edit_vertical_guides_ = [0.0]
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=74005596]
