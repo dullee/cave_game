@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://c3tr8ujsiwoc7" path="res://scenes/world/world.gd" id="1_6hctx"]
 [ext_resource type="PackedScene" uid="uid://23ae3y1gwajy" path="res://UI/loading_menu.tscn" id="2_ues17"]
 [ext_resource type="PackedScene" uid="uid://bqlrr5ond8qd4" path="res://scenes/world/spawn_area.tscn" id="3_xq18t"]
+[ext_resource type="Shader" uid="uid://c8n087kvag0j4" path="res://assets/shaders/tile_glow.gdshader" id="4_ues17"]
 [ext_resource type="Texture2D" uid="uid://cgq7i5v33sg4r" path="res://assets/texture/New Piskel.png" id="4_x0nq1"]
 [ext_resource type="Script" uid="uid://bs70lna1dynm" path="res://scenes/world/tile_map_layer.gd" id="5_rwifv"]
 [ext_resource type="Script" uid="uid://m5tosbvs7kts" path="res://scenes/world/cave_generator.gd" id="6_ckok1"]
@@ -23,6 +24,21 @@
 [ext_resource type="Texture2D" uid="uid://dxfregr26foab" path="res://assets/texture/Free Pixel Art Forest/PNG/Background layers/Layer_0001_8.png" id="21_1cxds"]
 [ext_resource type="Texture2D" uid="uid://1fub5r8ge532" path="res://assets/texture/Free Pixel Art Forest/PNG/Background layers/Layer_0000_9.png" id="22_2m0ga"]
 
+[sub_resource type="Environment" id="Environment_71j4m"]
+background_mode = 3
+glow_enabled = true
+glow_intensity = 0.5
+glow_bloom = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xq18t"]
+shader = ExtResource("4_ues17")
+shader_parameter/color1 = Color(0, 1, 0, 1)
+shader_parameter/color2 = Color(0, 1, 0, 1)
+shader_parameter/threshold = 1.0
+shader_parameter/intensity = 90.0
+shader_parameter/opacity = 1.0
+shader_parameter/glow_color = Color(0, 1, 0, 1)
+
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_i7141"]
 polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 
@@ -30,6 +46,7 @@ polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 texture = ExtResource("4_x0nq1")
 0:0/0 = 0
 0:0/0/modulate = Color(0, 1, 0, 1)
+0:0/0/material = SubResource("ShaderMaterial_xq18t")
 0:0/0/custom_data_0 = true
 0:0/0/custom_data_1 = true
 1:0/0 = 0
@@ -51,15 +68,14 @@ custom_data_layer_1/name = "can_glow"
 custom_data_layer_1/type = 1
 sources/0 = SubResource("TileSetAtlasSource_71j4m")
 
-[sub_resource type="Environment" id="Environment_71j4m"]
-glow_enabled = true
-glow_blend_mode = 0
-
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_oo54l"]
 light_mode = 1
 
 [node name="World" type="Node2D" unique_id=34334308 groups=["world"]]
 script = ExtResource("1_6hctx")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1933218963]
+environment = SubResource("Environment_71j4m")
 
 [node name="LoadingMenu" parent="." unique_id=890998599 instance=ExtResource("2_ues17")]
 
@@ -73,6 +89,7 @@ tile_map_data = PackedByteArray("AAD9/wAAAAAAAAAAAAD+/wAAAAAAAAAAAAD//wAAAAAAAAA
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1528659640 groups=["tilemaplayer"]]
 z_as_relative = false
+tile_map_data = PackedByteArray("AAALABcAAAAAAAAAAAAKABcAAAABAAAAAAAKABYAAAABAAAAAAALABYAAAABAAAAAAAMABYAAAABAAAAAAAMABcAAAABAAAAAAAMABgAAAABAAAAAAALABgAAAABAAAAAAAKABgAAAABAAAAAAA=")
 tile_set = SubResource("TileSet_qfnet")
 occlusion_enabled = false
 script = ExtResource("5_rwifv")
@@ -97,9 +114,6 @@ script = ExtResource("7_2x71e")
 spawn_path = NodePath("..")
 spawn_limit = 10
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1933218963]
-environment = SubResource("Environment_71j4m")
-
 [node name="DirectionalLight2D" type="DirectionalLight2D" parent="." unique_id=1907083694]
 energy = 0.93
 blend_mode = 1
@@ -121,108 +135,110 @@ enemies = Array[PackedScene]([ExtResource("10_jyr8v")])
 z_index = 10
 script = ExtResource("11_5o5dd")
 
-[node name="Layer00110" type="Sprite2D" parent="." unique_id=769784008]
+[node name="BackgroundLayers" type="Node" parent="." unique_id=692629164]
+
+[node name="Layer00110" type="Sprite2D" parent="BackgroundLayers" unique_id=769784008]
 material = SubResource("CanvasItemMaterial_oo54l")
 position = Vector2(815, -206.00002)
 scale = Vector2(2.961207, 0.9299569)
 texture = ExtResource("12_d0ajt")
 
-[node name="Layer00092" type="Sprite2D" parent="." unique_id=517824394]
+[node name="Layer00092" type="Sprite2D" parent="BackgroundLayers" unique_id=517824394]
 material = SubResource("CanvasItemMaterial_oo54l")
 position = Vector2(464, -400)
 texture = ExtResource("13_fymcc")
 
-[node name="Layer00093" type="Sprite2D" parent="." unique_id=37260679]
+[node name="Layer00093" type="Sprite2D" parent="BackgroundLayers" unique_id=37260679]
 material = SubResource("CanvasItemMaterial_oo54l")
 position = Vector2(1344, -400)
 texture = ExtResource("13_fymcc")
 
-[node name="Layer00083" type="Sprite2D" parent="." unique_id=366138188]
+[node name="Layer00083" type="Sprite2D" parent="BackgroundLayers" unique_id=366138188]
 material = SubResource("CanvasItemMaterial_oo54l")
 position = Vector2(464, -400)
 texture = ExtResource("14_lbnhc")
 
-[node name="Layer00084" type="Sprite2D" parent="." unique_id=416281926]
+[node name="Layer00084" type="Sprite2D" parent="BackgroundLayers" unique_id=416281926]
 material = SubResource("CanvasItemMaterial_oo54l")
 position = Vector2(1392, -400)
 texture = ExtResource("14_lbnhc")
 
-[node name="Layer0007Lights" type="Sprite2D" parent="." unique_id=1209668249]
+[node name="Layer0007Lights" type="Sprite2D" parent="BackgroundLayers" unique_id=1209668249]
 material = SubResource("CanvasItemMaterial_oo54l")
 position = Vector2(384, -400)
 texture = ExtResource("15_sygq6")
 
-[node name="Layer0007Lights2" type="Sprite2D" parent="." unique_id=235175161]
+[node name="Layer0007Lights2" type="Sprite2D" parent="BackgroundLayers" unique_id=235175161]
 material = SubResource("CanvasItemMaterial_oo54l")
 position = Vector2(1264, -400)
 texture = ExtResource("15_sygq6")
 
-[node name="Layer00064" type="Sprite2D" parent="." unique_id=551197636]
+[node name="Layer00064" type="Sprite2D" parent="BackgroundLayers" unique_id=551197636]
 material = SubResource("CanvasItemMaterial_oo54l")
 position = Vector2(464, -400)
 texture = ExtResource("16_0wrxw")
 
-[node name="Layer00065" type="Sprite2D" parent="." unique_id=1166967483]
+[node name="Layer00065" type="Sprite2D" parent="BackgroundLayers" unique_id=1166967483]
 material = SubResource("CanvasItemMaterial_oo54l")
 position = Vector2(1360, -400)
 texture = ExtResource("16_0wrxw")
 
-[node name="Layer00055" type="Sprite2D" parent="Layer00065" unique_id=1149622053]
+[node name="Layer00055" type="Sprite2D" parent="BackgroundLayers/Layer00065" unique_id=1149622053]
 material = SubResource("CanvasItemMaterial_oo54l")
 position = Vector2(-896, 0)
 texture = ExtResource("17_cmg7y")
 
-[node name="Layer00056" type="Sprite2D" parent="Layer00065" unique_id=1757813424]
+[node name="Layer00056" type="Sprite2D" parent="BackgroundLayers/Layer00065" unique_id=1757813424]
 material = SubResource("CanvasItemMaterial_oo54l")
 position = Vector2(32, 0)
 texture = ExtResource("17_cmg7y")
 
-[node name="Layer0004Lights" type="Sprite2D" parent="Layer00065" unique_id=542403125]
+[node name="Layer0004Lights" type="Sprite2D" parent="BackgroundLayers/Layer00065" unique_id=542403125]
 material = SubResource("CanvasItemMaterial_oo54l")
 position = Vector2(-264, 0)
 texture = ExtResource("18_nqe8x")
 
-[node name="Layer0004Lights2" type="Sprite2D" parent="Layer00065" unique_id=469197706]
+[node name="Layer0004Lights2" type="Sprite2D" parent="BackgroundLayers/Layer00065" unique_id=469197706]
 material = SubResource("CanvasItemMaterial_oo54l")
 position = Vector2(-936, 0)
 texture = ExtResource("18_nqe8x")
 
-[node name="Layer00036" type="Sprite2D" parent="Layer00065" unique_id=1263754708]
+[node name="Layer00036" type="Sprite2D" parent="BackgroundLayers/Layer00065" unique_id=1263754708]
 material = SubResource("CanvasItemMaterial_oo54l")
 position = Vector2(-896, 8)
 texture = ExtResource("19_sh7a8")
 
-[node name="Layer00037" type="Sprite2D" parent="Layer00065" unique_id=465546369]
+[node name="Layer00037" type="Sprite2D" parent="BackgroundLayers/Layer00065" unique_id=465546369]
 material = SubResource("CanvasItemMaterial_oo54l")
 position = Vector2(-40, 8)
 texture = ExtResource("19_sh7a8")
 
-[node name="Layer00027" type="Sprite2D" parent="Layer00065" unique_id=1808310297]
+[node name="Layer00027" type="Sprite2D" parent="BackgroundLayers/Layer00065" unique_id=1808310297]
 material = SubResource("CanvasItemMaterial_oo54l")
 position = Vector2(-888, 520)
 texture = ExtResource("20_7mx70")
 
-[node name="Layer00028" type="Sprite2D" parent="Layer00065" unique_id=360783779]
+[node name="Layer00028" type="Sprite2D" parent="BackgroundLayers/Layer00065" unique_id=360783779]
 material = SubResource("CanvasItemMaterial_oo54l")
 position = Vector2(40, 520)
 texture = ExtResource("20_7mx70")
 
-[node name="Layer00018" type="Sprite2D" parent="Layer00065" unique_id=498785703]
+[node name="Layer00018" type="Sprite2D" parent="BackgroundLayers/Layer00065" unique_id=498785703]
 material = SubResource("CanvasItemMaterial_oo54l")
 position = Vector2(24, 0)
 texture = ExtResource("21_1cxds")
 
-[node name="Layer00019" type="Sprite2D" parent="Layer00065" unique_id=1722171163]
+[node name="Layer00019" type="Sprite2D" parent="BackgroundLayers/Layer00065" unique_id=1722171163]
 material = SubResource("CanvasItemMaterial_oo54l")
 position = Vector2(-904, 0)
 texture = ExtResource("21_1cxds")
 
-[node name="Layer00009" type="Sprite2D" parent="Layer00065" unique_id=658998166]
+[node name="Layer00009" type="Sprite2D" parent="BackgroundLayers/Layer00065" unique_id=658998166]
 material = SubResource("CanvasItemMaterial_oo54l")
 position = Vector2(-896, 0)
 texture = ExtResource("22_2m0ga")
 
-[node name="Layer00010" type="Sprite2D" parent="Layer00065" unique_id=294994271]
+[node name="Layer00010" type="Sprite2D" parent="BackgroundLayers/Layer00065" unique_id=294994271]
 material = SubResource("CanvasItemMaterial_oo54l")
 position = Vector2(24, 0)
 texture = ExtResource("22_2m0ga")

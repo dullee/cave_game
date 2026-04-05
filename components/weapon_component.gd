@@ -31,11 +31,15 @@ func _ready() -> void:
 
 func _unhandled_input(_event: InputEvent) -> void:
 	if not is_multiplayer_authority() or not input_manager.is_enabled():
+		print("not auth or input disabled")
+		
 		return
 	if not data:  # ← guard at top
+		print("no weapon data")
 		return
 	if input_manager.is_action_just_pressed("mouse_2"):
 		_throw_item.rpc()
+		print("input m2")
 	if input_manager.is_action_just_pressed("r") and not is_reloading and current_ammo < data.max_ammo:
 		reload()
 	if input_manager.is_action_just_pressed("1") and starting_weapons.size() > 0:
@@ -112,6 +116,7 @@ func reload():
 	
 @rpc("any_peer", "call_local", "reliable")
 func _throw_item():
+	print("throwing item")
 	var dynamite_instance = dynamite.instantiate()
 	dynamite_instance.global_position = pivot_arm.global_position
 	dynamite_instance.direction = muzzle.global_transform.x

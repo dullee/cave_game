@@ -22,7 +22,6 @@ func destroy_tile(collision: KinematicCollision2D):
 		return
 	# Only process if it's actually the cave tilemap
 	if collider != main_layer:
-		print("not cave tile")
 		return
 	var collision_pos_global = collision.get_position()
 	var collision_normal = collision.get_normal()
