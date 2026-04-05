@@ -10,6 +10,7 @@ class_name WeaponComponent
 @onready var muzzle: Marker2D = $"../pivot_arm/muzzle"
 @onready var muzzle_flash_particle: GPUParticles2D = $"../pivot_arm/muzzle/MuzzleFlashParticle"
 @onready var gun_sprite: Sprite2D = $"../pivot_arm/muzzle/GunSprite"
+@onready var reload_bar: TextureProgressBar = $"$ReloadBar"
 
 @export var starting_weapons: Array[WeaponData] = []
 var current_weapon_index := 0
@@ -24,9 +25,11 @@ var is_reloading := false
 var dynamite = preload("res://entities/weapons/dynamite.tscn")
 #----------------------------------------------------
 func _ready() -> void:
-	SignalBus.input_disabled.connect(_on_inputs_disabled)
+
+	reload_bar.visible = false
+	reload_bar.min_value = 0.0
 	if starting_weapons.size() > 0:
-		equip(starting_weapons[0]) 
+		equip(starting_weapons[0])
 
 func _unhandled_input(_event: InputEvent) -> void:
 	if not is_multiplayer_authority() or not input_manager.is_enabled():
@@ -43,7 +46,7 @@ func _unhandled_input(_event: InputEvent) -> void:
 		equip(starting_weapons[1])
 		
 func _process(_delta: float) -> void:
-	if not is_multiplayer_authority():
+	if not is_multiplayer_authority() or not input_manager.is_enabled():
 		return
 	if not data:  # ← guard at top
 		return
@@ -61,11 +64,11 @@ func equip(new_data: WeaponData) -> void:
 func initialize() -> void:
 	current_ammo = data.max_ammo
 	reload_time = data.reload_time
+	reload_bar.max_value = reload_time
 	can_shoot = true
 	is_reloading = false
 	ammo_changed.emit(current_ammo, data.max_ammo)
 	gun_sprite.texture = data.weapon_sprite
-	print(data.weapon_sprite)
 	
 func _do_shoot():
 	if not data:  # ← guard
@@ -96,18 +99,26 @@ func _spawn_bullet(pos: Vector2, dir: Vector2) -> void:
 	get_tree().current_scene.add_child(bullet)
 
 func reload():
-	if not is_multiplayer_authority() or not data:  # ← guard
+	if not is_multiplayer_authority() or not data:
 		return
 	is_reloading = true
 	can_shoot = false
+	_show_reload_bar(data.reload_time)
 	if data.reload_sound:
 		sound_component.play_sound_data(data.reload_sound, get_parent().global_position)
 	await get_tree().create_timer(reload_time).timeout
 	current_ammo = data.max_ammo
 	ammo_changed.emit(current_ammo, data.max_ammo)
 	is_reloading = false
+	reload_bar.visible = false
 	await get_tree().create_timer(data.fire_rate).timeout
 	can_shoot = true
+	
+func _show_reload_bar(duration: float) -> void:
+	reload_bar.visible = true
+	reload_bar.value = 0.0
+	var tween = create_tween()
+	tween.tween_property(reload_bar, "value", data.reload_time, duration)	
 	
 @rpc("any_peer", "call_local", "reliable")
 func _throw_item():
@@ -116,6 +127,3 @@ func _throw_item():
 	dynamite_instance.direction = muzzle.global_transform.x
 	get_tree().root.add_child(dynamite_instance)
 	
-func _on_inputs_disabled() -> void:
-	set_process(false)
-	set_process_unhandled_input(false)

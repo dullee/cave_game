@@ -44,7 +44,7 @@ func _ready() -> void:
 		hud_canvas.visible = false
 	else:
 		get_tree().get_first_node_in_group("camera").set_target(self)
-
+		SignalBus.input_enabled.emit()
 func get_health_component() -> HealthComponent: return health_component
 
 func get_weapon_component() -> WeaponComponent: return weapon_component

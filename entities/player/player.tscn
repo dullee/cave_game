@@ -4,7 +4,9 @@
 [ext_resource type="Texture2D" uid="uid://dokupuvnk7luw" path="res://assets/texture/player.png" id="2_yqrof"]
 [ext_resource type="Script" uid="uid://dhmi7ka05wcgj" path="res://entities/player/pivot_arm.gd" id="3_3wlsy"]
 [ext_resource type="Texture2D" uid="uid://u0w6imn5h5vu" path="res://assets/texture/guns/revolver.png" id="4_b2kln"]
+[ext_resource type="Texture2D" uid="uid://i7ookm3fo5se" path="res://assets/texture/guns/reload_bar_over.png" id="4_ghoj8"]
 [ext_resource type="Script" uid="uid://c5qj4xllsjf0i" path="res://entities/weapons/weapon_data.gd" id="5_mtric"]
+[ext_resource type="Texture2D" uid="uid://dbyqrs3p85tc8" path="res://assets/texture/guns/reload_progress.png" id="5_t1t22"]
 [ext_resource type="Script" uid="uid://byq5my4d3qu7f" path="res://components/weapon_component.gd" id="5_we0b7"]
 [ext_resource type="Resource" uid="uid://dgok6ebh0kkxa" path="res://entities/weapons/rifle/rifle_data.tres" id="6_gx6sm"]
 [ext_resource type="Resource" uid="uid://6fe368cwxdby" path="res://entities/weapons/revolver/revolver_data.tres" id="6_mtric"]
@@ -229,7 +231,6 @@ metadata/_edit_vertical_guides_ = [0.0]
 replication_config = SubResource("SceneReplicationConfig_d2wvv")
 
 [node name="PlayerName" type="Label" parent="." unique_id=1288498330]
-visible = false
 material = SubResource("CanvasItemMaterial_3v2ag")
 anchors_preset = 8
 anchor_left = 0.5
@@ -276,7 +277,7 @@ script = ExtResource("3_3wlsy")
 position = Vector2(26, 0)
 
 [node name="GunSprite" type="Sprite2D" parent="pivot_arm/muzzle" unique_id=1063926474]
-position = Vector2(-9.000002, -13)
+position = Vector2(-9, -11)
 scale = Vector2(2, 2)
 offset = Vector2(0, 4.68)
 
@@ -306,6 +307,25 @@ texture = SubResource("GradientTexture2D_smehm")
 [node name="WeaponComponent" type="Node" parent="." unique_id=1593560909]
 script = ExtResource("5_we0b7")
 starting_weapons = Array[ExtResource("5_mtric")]([ExtResource("6_gx6sm"), ExtResource("6_mtric")])
+
+[node name="ReloadBar" type="TextureProgressBar" parent="WeaponComponent" unique_id=550741600]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -748.5
+offset_top = -561.5
+offset_right = -716.5
+offset_bottom = -529.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.3, 0.3)
+max_value = 10.0
+step = 0.1
+fill_mode = 4
+texture_over = ExtResource("4_ghoj8")
+texture_progress = ExtResource("5_t1t22")
 
 [node name="HealthComponent" parent="." unique_id=2030201660 instance=ExtResource("7_eyb6c")]
 max_health = 9999999
@@ -392,6 +412,7 @@ sounds = {
 script = ExtResource("13_qpopc")
 
 [node name="Jetpack" type="Node2D" parent="." unique_id=696613967]
+visible = false
 script = ExtResource("14_wq0jh")
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="Jetpack" unique_id=34895073]

@@ -12,11 +12,12 @@ func _ready() -> void:
 	options_button.pressed.connect(_on_options)
 	quit_button.pressed.connect(_on_quit)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta: float) -> void:
-	pass
+func _unhandled_key_input(event: InputEvent) -> void:
+	if Input.is_action_just_pressed("esc"):
+		_on_resume()
 
 func _on_resume():
+	print("resuming")
 	SignalBus.input_enabled.emit()
 	queue_free()
 

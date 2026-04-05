@@ -28,6 +28,7 @@ GameManager="*uid://c5hvajc1p07ka"
 window/size/viewport_width=1511
 window/size/viewport_height=1043
 window/stretch/mode="canvas_items"
+mouse_cursor/custom_image="uid://cwcacixdojq2g"
 
 [global_group]
 
