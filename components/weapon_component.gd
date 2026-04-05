@@ -32,14 +32,11 @@ func _ready() -> void:
 func _unhandled_input(_event: InputEvent) -> void:
 	if not is_multiplayer_authority() or not input_manager.is_enabled():
 		print("not auth or input disabled")
-		
 		return
 	if not data:  # ← guard at top
 		print("no weapon data")
 		return
-	if input_manager.is_action_just_pressed("mouse_2"):
-		_throw_item.rpc()
-		print("input m2")
+
 	if input_manager.is_action_just_pressed("r") and not is_reloading and current_ammo < data.max_ammo:
 		reload()
 	if input_manager.is_action_just_pressed("1") and starting_weapons.size() > 0:
@@ -58,7 +55,10 @@ func _process(_delta: float) -> void:
 		_do_shoot()
 	if current_ammo <= 0 and not is_reloading:
 		reload()
-	
+	if input_manager.is_action_just_pressed("mouse_2"):
+		_throw_item.rpc()
+		print("input m2")
+		
 func equip(new_data: WeaponData) -> void:
 	data = new_data
 	initialize()
@@ -120,5 +120,5 @@ func _throw_item():
 	var dynamite_instance = dynamite.instantiate()
 	dynamite_instance.global_position = pivot_arm.global_position
 	dynamite_instance.direction = muzzle.global_transform.x
-	get_tree().root.add_child(dynamite_instance)
+	get_tree().current_scene.add_child(dynamite_instance)
 	

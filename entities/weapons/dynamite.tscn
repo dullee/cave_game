@@ -128,6 +128,7 @@ color = Color(0.59252757, 0.597737, 0.58409315, 1)
 color_ramp = SubResource("GradientTexture1D_l6oux")
 
 [node name="Dynamite" type="RigidBody2D" unique_id=808256269]
+z_index = 1
 collision_layer = 8
 collision_mask = 17
 script = ExtResource("1_n0lvl")
