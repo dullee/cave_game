@@ -59,8 +59,9 @@ func generate(_seed: int) -> void:
 			tilemap.set_cell(Vector2i(x, y), 0, tile)
 
 		await get_tree().process_frame
-	_collect_spawn_tiles()
+	
 	_stamp_boss_room()
+	_collect_spawn_tiles()
 	SignalBus.cave_generated.emit()
 	print("cave generated")
 	

@@ -3,9 +3,11 @@
 [ext_resource type="Script" uid="uid://dfnl7hqbr3qtr" path="res://entities/player/player.gd" id="1_gx6sm"]
 [ext_resource type="Texture2D" uid="uid://dokupuvnk7luw" path="res://assets/texture/player.png" id="2_yqrof"]
 [ext_resource type="Script" uid="uid://dhmi7ka05wcgj" path="res://entities/player/pivot_arm.gd" id="3_3wlsy"]
-[ext_resource type="Texture2D" uid="uid://u0w6imn5h5vu" path="res://assets/texture/revolver.png" id="4_b2kln"]
+[ext_resource type="Texture2D" uid="uid://u0w6imn5h5vu" path="res://assets/texture/guns/revolver.png" id="4_b2kln"]
+[ext_resource type="Script" uid="uid://c5qj4xllsjf0i" path="res://entities/weapons/weapon_data.gd" id="5_mtric"]
 [ext_resource type="Script" uid="uid://byq5my4d3qu7f" path="res://components/weapon_component.gd" id="5_we0b7"]
-[ext_resource type="Resource" uid="uid://6fe368cwxdby" path="res://entities/weapons/weapon_data.tres" id="6_mtric"]
+[ext_resource type="Resource" uid="uid://dgok6ebh0kkxa" path="res://entities/weapons/rifle/rifle_data.tres" id="6_gx6sm"]
+[ext_resource type="Resource" uid="uid://6fe368cwxdby" path="res://entities/weapons/revolver/revolver_data.tres" id="6_mtric"]
 [ext_resource type="PackedScene" uid="uid://b2sdkpkgw7a5c" path="res://components/health_component.tscn" id="7_eyb6c"]
 [ext_resource type="Script" uid="uid://p4fmppr1bfbd" path="res://UI/hud.gd" id="8_221hk"]
 [ext_resource type="Texture2D" uid="uid://b1lpb6ua51df6" path="res://assets/texture/health_over.png" id="9_ghoj8"]
@@ -13,8 +15,12 @@
 [ext_resource type="Script" uid="uid://0gmtia68375y" path="res://scripts/network_manager.gd" id="11_50fht"]
 [ext_resource type="PackedScene" uid="uid://c5n7m12koykgm" path="res://components/sound_component.tscn" id="12_wuv6x"]
 [ext_resource type="Script" uid="uid://cdyjeau03pfjg" path="res://scripts/input_manager.gd" id="13_qpopc"]
+[ext_resource type="Resource" uid="uid://calhppgy1nnw3" path="res://resources/sfx/explosion_sound.tres" id="13_we0b7"]
+[ext_resource type="Resource" uid="uid://bclysv4vxju0t" path="res://resources/sfx/jump_sound.tres" id="14_mtric"]
 [ext_resource type="Script" uid="uid://bhcrgq564tbf4" path="res://entities/player/jetpack.gd" id="14_wq0jh"]
+[ext_resource type="Resource" uid="uid://cw1rhaoyr4rq5" path="res://resources/sfx/player_death_sound.tres" id="15_eyb6c"]
 [ext_resource type="Texture2D" uid="uid://d283jm1wao4io" path="res://assets/texture/jetpack.png" id="15_gt4e4"]
+[ext_resource type="Resource" uid="uid://g1w660jdiaru" path="res://resources/sfx/player_hit_sound.tres" id="16_221hk"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_d2wvv"]
 properties/0/path = NodePath(".:position")
@@ -46,6 +52,21 @@ size = Vector2(10, 24)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y4r1p"]
 size = Vector2(30, 68)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_gx6sm"]
+light_mode = 1
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_gx6sm"]
+particle_flag_disable_z = true
+spread = 85.714
+initial_velocity_min = 19.029999
+initial_velocity_max = 73.39
+gravity = Vector3(0, 0, 0)
+scale_min = 3.0
+scale_max = 4.0
+color = Color(1, 0.42352942, 0, 1)
+hue_variation_min = -1.0
+hue_variation_max = -0.85
 
 [sub_resource type="Gradient" id="Gradient_fjrip"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
@@ -256,8 +277,7 @@ position = Vector2(26, 0)
 
 [node name="GunSprite" type="Sprite2D" parent="pivot_arm/muzzle" unique_id=1063926474]
 position = Vector2(-9.000002, -13)
-scale = Vector2(2.7499998, 2.7500002)
-texture = ExtResource("4_b2kln")
+scale = Vector2(2, 2)
 offset = Vector2(0, 4.68)
 
 [node name="RayCast2D" type="RayCast2D" parent="pivot_arm/muzzle" unique_id=1765960592]
@@ -267,6 +287,16 @@ target_position = Vector2(-4.7683716e-07, 4)
 collision_mask = 21
 hit_from_inside = true
 
+[node name="MuzzleFlashParticle" type="GPUParticles2D" parent="pivot_arm/muzzle" unique_id=768079016]
+material = SubResource("CanvasItemMaterial_gx6sm")
+position = Vector2(2, 0)
+emitting = false
+amount = 3
+lifetime = 0.2
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_gx6sm")
+
 [node name="PointLight2D" type="PointLight2D" parent="." unique_id=2145718442]
 scale = Vector2(4.65625, 4.6562505)
 color = Color(0.67058825, 0.9764706, 0.9882353, 0.3254902)
@@ -275,7 +305,7 @@ texture = SubResource("GradientTexture2D_smehm")
 
 [node name="WeaponComponent" type="Node" parent="." unique_id=1593560909]
 script = ExtResource("5_we0b7")
-data = ExtResource("6_mtric")
+starting_weapons = Array[ExtResource("5_mtric")]([ExtResource("6_gx6sm"), ExtResource("6_mtric")])
 
 [node name="HealthComponent" parent="." unique_id=2030201660 instance=ExtResource("7_eyb6c")]
 max_health = 9999999
@@ -351,6 +381,12 @@ script = ExtResource("11_50fht")
 libraries/ = SubResource("AnimationLibrary_jej6c")
 
 [node name="SoundComponent" parent="." unique_id=132270122 instance=ExtResource("12_wuv6x")]
+sounds = {
+"explosion": ExtResource("13_we0b7"),
+"jump": ExtResource("14_mtric"),
+"player_death": ExtResource("15_eyb6c"),
+"player_hit": ExtResource("16_221hk")
+}
 
 [node name="InputManager" type="Node" parent="." unique_id=405760973]
 script = ExtResource("13_qpopc")

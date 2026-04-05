@@ -6,4 +6,5 @@
 [resource]
 script = ExtResource("1_qx4py")
 stream = ExtResource("2_edpxo")
+volume_db = -5.0
 metadata/_custom_type_script = "uid://bquejjm72kgnp"

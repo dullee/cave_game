@@ -8,6 +8,11 @@ class_name WeaponComponent
 @export var data: WeaponData
 @onready var pivot_arm: Node2D = $"../pivot_arm"
 @onready var muzzle: Marker2D = $"../pivot_arm/muzzle"
+@onready var muzzle_flash_particle: GPUParticles2D = $"../pivot_arm/muzzle/MuzzleFlashParticle"
+@onready var gun_sprite: Sprite2D = $"../pivot_arm/muzzle/GunSprite"
+
+@export var starting_weapons: Array[WeaponData] = []
+var current_weapon_index := 0
 
 signal ammo_changed(current: int, max_ammo: int)
 
@@ -20,34 +25,66 @@ var dynamite = preload("res://entities/weapons/dynamite.tscn")
 #----------------------------------------------------
 func _ready() -> void:
 	SignalBus.input_disabled.connect(_on_inputs_disabled)
-	current_ammo = data.max_ammo
-	reload_time = data.reload_time
+	if starting_weapons.size() > 0:
+		equip(starting_weapons[0]) 
 
 func _unhandled_input(_event: InputEvent) -> void:
 	if not is_multiplayer_authority() or not input_manager.is_enabled():
+		return
+	if not data:  # ← guard at top
 		return
 	if input_manager.is_action_just_pressed("mouse_2"):
 		_throw_item.rpc()
 	if input_manager.is_action_just_pressed("r") and not is_reloading and current_ammo < data.max_ammo:
 		reload()
+	if input_manager.is_action_just_pressed("1") and starting_weapons.size() > 0:
+		equip(starting_weapons[0])
+	if input_manager.is_action_just_pressed("2") and starting_weapons.size() > 1:
+		equip(starting_weapons[1])
 		
 func _process(_delta: float) -> void:
-	if not is_multiplayer_authority() :
+	if not is_multiplayer_authority():
 		return
-	if input_manager.is_action_pressed("mouse_1") and can_shoot and current_ammo > 0:
+	if not data:  # ← guard at top
+		return
+	var shoot_input = input_manager.is_action_pressed("mouse_1") if data.is_automatic \
+				   else input_manager.is_action_just_pressed("mouse_1")
+	if shoot_input and can_shoot and current_ammo > 0 and not is_reloading:
 		_do_shoot()
-
 	if current_ammo <= 0 and not is_reloading:
 		reload()
 	
+func equip(new_data: WeaponData) -> void:
+	data = new_data
+	initialize()
+
+func initialize() -> void:
+	current_ammo = data.max_ammo
+	reload_time = data.reload_time
+	can_shoot = true
+	is_reloading = false
+	ammo_changed.emit(current_ammo, data.max_ammo)
+	gun_sprite.texture = data.weapon_sprite
+	print(data.weapon_sprite)
+	
 func _do_shoot():
+	if not data:  # ← guard
+		return
 	current_ammo -= 1
 	ammo_changed.emit(current_ammo, data.max_ammo)
 	can_shoot = false
-	sound_component.play_sound("shoot")
-	_spawn_bullet.rpc(muzzle.global_position, muzzle.global_transform.x)
+	if data.shoot_sound:
+		sound_component.play_sound_data(data.shoot_sound, get_parent().global_position)
+	for i in data.bullets_per_shot:
+		var spread = 0.0
+		if data.bullets_per_shot > 1:
+			var t = float(i) / float(data.bullets_per_shot - 1)
+			spread = lerp(-data.spread_angle, data.spread_angle, t)
+		var dir = muzzle.global_transform.x.rotated(deg_to_rad(spread))
+		_spawn_bullet.rpc(muzzle.global_position, dir)
 	await get_tree().create_timer(data.fire_rate).timeout
-	if not is_reloading: can_shoot = true
+	if not is_reloading:
+		can_shoot = true
 
 @rpc("any_peer", "call_local", "reliable")
 func _spawn_bullet(pos: Vector2, dir: Vector2) -> void:
@@ -59,11 +96,12 @@ func _spawn_bullet(pos: Vector2, dir: Vector2) -> void:
 	get_tree().current_scene.add_child(bullet)
 
 func reload():
-	if not is_multiplayer_authority():
+	if not is_multiplayer_authority() or not data:  # ← guard
 		return
 	is_reloading = true
 	can_shoot = false
-	sound_component.play_sound("reload")
+	if data.reload_sound:
+		sound_component.play_sound_data(data.reload_sound, get_parent().global_position)
 	await get_tree().create_timer(reload_time).timeout
 	current_ammo = data.max_ammo
 	ammo_changed.emit(current_ammo, data.max_ammo)
