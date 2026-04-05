@@ -17,11 +17,14 @@
 [ext_resource type="Script" uid="uid://0gmtia68375y" path="res://scripts/network_manager.gd" id="11_50fht"]
 [ext_resource type="PackedScene" uid="uid://c5n7m12koykgm" path="res://components/sound_component.tscn" id="12_wuv6x"]
 [ext_resource type="Script" uid="uid://cdyjeau03pfjg" path="res://scripts/input_manager.gd" id="13_qpopc"]
+[ext_resource type="Script" uid="uid://bnbu8v54o8raa" path="res://UI/HUD/cursor_layer.gd" id="13_t1t22"]
 [ext_resource type="Resource" uid="uid://calhppgy1nnw3" path="res://resources/sfx/explosion_sound.tres" id="13_we0b7"]
+[ext_resource type="Texture2D" uid="uid://cwcacixdojq2g" path="res://assets/texture/cursor.png" id="14_50fht"]
 [ext_resource type="Resource" uid="uid://bclysv4vxju0t" path="res://resources/sfx/jump_sound.tres" id="14_mtric"]
 [ext_resource type="Script" uid="uid://bhcrgq564tbf4" path="res://entities/player/jetpack.gd" id="14_wq0jh"]
 [ext_resource type="Resource" uid="uid://cw1rhaoyr4rq5" path="res://resources/sfx/player_death_sound.tres" id="15_eyb6c"]
 [ext_resource type="Texture2D" uid="uid://d283jm1wao4io" path="res://assets/texture/jetpack.png" id="15_gt4e4"]
+[ext_resource type="Texture2D" uid="uid://cyk0uqqu776mx" path="res://assets/texture/guns/reload_bar_under.png" id="15_wuv6x"]
 [ext_resource type="Resource" uid="uid://g1w660jdiaru" path="res://resources/sfx/player_hit_sound.tres" id="16_221hk"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_d2wvv"]
@@ -308,25 +311,6 @@ texture = SubResource("GradientTexture2D_smehm")
 script = ExtResource("5_we0b7")
 starting_weapons = Array[ExtResource("5_mtric")]([ExtResource("6_gx6sm"), ExtResource("6_mtric")])
 
-[node name="ReloadBar" type="TextureProgressBar" parent="WeaponComponent" unique_id=550741600]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -748.5
-offset_top = -561.5
-offset_right = -716.5
-offset_bottom = -529.5
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(0.3, 0.3)
-max_value = 10.0
-step = 0.1
-fill_mode = 4
-texture_over = ExtResource("4_ghoj8")
-texture_progress = ExtResource("5_t1t22")
-
 [node name="HealthComponent" parent="." unique_id=2030201660 instance=ExtResource("7_eyb6c")]
 max_health = 9999999
 
@@ -393,6 +377,51 @@ position = Vector2(1307, 828.00006)
 scale = Vector2(14.858476, 14.858477)
 texture = ExtResource("4_b2kln")
 offset = Vector2(0, 4.68)
+
+[node name="CursorLayer" type="CanvasLayer" parent="HudCanvas" unique_id=755635080]
+script = ExtResource("13_t1t22")
+
+[node name="ReloadCursor" type="Control" parent="HudCanvas/CursorLayer" unique_id=78360]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="CustomCursor" type="TextureRect" parent="HudCanvas/CursorLayer/ReloadCursor" unique_id=998861977]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -60.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+texture = ExtResource("14_50fht")
+
+[node name="ReloadBar" type="TextureProgressBar" parent="HudCanvas/CursorLayer/ReloadCursor" unique_id=550741600]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -36.0
+offset_top = -36.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+max_value = 10.0
+step = 0.05
+fill_mode = 4
+texture_under = ExtResource("15_wuv6x")
+texture_over = ExtResource("4_ghoj8")
+texture_progress = ExtResource("5_t1t22")
 
 [node name="NetworkManager" type="Node" parent="." unique_id=1830414190]
 script = ExtResource("11_50fht")

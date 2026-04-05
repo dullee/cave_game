@@ -4,6 +4,7 @@ class_name Hud
 @onready var health_bar: TextureProgressBar = $HealthBar
 @onready var health_label: Label = $HealthLabel
 @onready var ammo_count_label: Label = $AmmoCountLabel
+@onready var cursor_layer: CanvasLayer = $"../CursorLayer"
 
 
 func _ready() -> void:
@@ -11,6 +12,8 @@ func _ready() -> void:
 	var player = get_parent().get_parent()
 	var health_comp = player.get_health_component()
 	var weapon_comp = player.get_weapon_component()
+	weapon_comp.reload_started.connect(cursor_layer.show_reload)
+	weapon_comp.reload_finished.connect(cursor_layer.show_cursor)
 	
 	if not health_comp:
 		print(health_comp) 
