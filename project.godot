@@ -130,6 +130,7 @@ left_shift={
 2d_physics/layer_3="enemies"
 2d_physics/layer_4="projectiles"
 2d_physics/layer_5="non_breakable_tiles"
+2d_physics/layer_6="interactable_object"
 
 [physics]
 

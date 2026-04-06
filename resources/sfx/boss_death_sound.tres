@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="SoundData" format=3 uid="uid://d3rw5os6e2rib"]
 
-[ext_resource type="Script" uid="uid://bquejjm72kgnp" path="res://scripts/sound_data.gd" id="1_8v1w2"]
+[ext_resource type="Script" uid="uid://bquejjm72kgnp" path="res://resources/sfx/sound_data.gd" id="1_8v1w2"]
 [ext_resource type="AudioStream" uid="uid://bjoujudd8ax3h" path="res://assets/sfx/boss_death.wav" id="2_vol26"]
 
 [resource]

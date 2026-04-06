@@ -11,12 +11,13 @@ class_name WeaponComponent
 @onready var muzzle_flash_particle: GPUParticles2D = $"../pivot_arm/muzzle/MuzzleFlashParticle"
 @onready var gun_sprite: Sprite2D = $"../pivot_arm/muzzle/GunSprite"
 
-@export var starting_weapons: Array[WeaponData] = []
+@export var weapon_slots: Array[WeaponData] = []
 var current_weapon_index := 0
 
 signal ammo_changed(current: int, max_ammo: int)
 signal reload_started(duration: float)
 signal reload_finished
+signal equip_updated(data)
 
 var can_shoot = true
 var current_ammo: int
@@ -26,31 +27,26 @@ var is_reloading := false
 var dynamite = preload("res://entities/weapons/dynamite.tscn")
 #----------------------------------------------------
 func _ready() -> void:
-	if starting_weapons.size() > 0:
-		equip(starting_weapons[0])
-
+	if weapon_slots.size() > 0:
+		equip(weapon_slots[0])
 func _unhandled_input(_event: InputEvent) -> void:
 	if not is_multiplayer_authority() or not input_manager.is_enabled():
 		print("not auth or input disabled")
 		return
-	if not data:  # ← guard at top
-		print("no weapon data")
-		return
-
-	if input_manager.is_action_just_pressed("r") and not is_reloading and current_ammo < data.max_ammo:
+	
+	if input_manager.is_action_just_pressed("r") and not is_reloading and current_ammo < data.max_ammo and data:
 		reload()
-	if input_manager.is_action_just_pressed("1") and starting_weapons.size() > 0:
-		equip(starting_weapons[0])
-	if input_manager.is_action_just_pressed("2") and starting_weapons.size() > 1:
-		equip(starting_weapons[1])
+	if input_manager.is_action_just_pressed("1") and weapon_slots.size() > 0:
+		equip(weapon_slots[0])
+	if input_manager.is_action_just_pressed("2") and weapon_slots.size() > 1:
+		equip(weapon_slots[1])
 		
 func _process(_delta: float) -> void:
 	if not is_multiplayer_authority() or not input_manager.is_enabled():
 		return
 	if not data:  # ← guard at top
 		return
-	var shoot_input = input_manager.is_action_pressed("mouse_1") if data.is_automatic \
-				   else input_manager.is_action_just_pressed("mouse_1")
+	var shoot_input = input_manager.is_action_pressed("mouse_1")
 	if shoot_input and can_shoot and current_ammo > 0 and not is_reloading:
 		_do_shoot()
 	if current_ammo <= 0 and not is_reloading:
@@ -60,9 +56,27 @@ func _process(_delta: float) -> void:
 		
 func equip(new_data: WeaponData) -> void:
 	data = new_data
-	initialize()
+	equip_updated.emit(data)
+	if data:
+		print("equipping: ", data)
+		initialize()
+	else:
+		print("equipping: ", data)
+	if weapon_slots.has(data):
+		print("item found in inventory")
+		return
+	else:
+		var empty_slot_key = weapon_slots.find(null)
 
+		weapon_slots[empty_slot_key] = data
+		print("item not found in inventory, adding")
+		print(weapon_slots)
+	
 func initialize() -> void:
+	if not data:
+		current_ammo = 0
+		can_shoot = false
+		gun_sprite.texture = null
 	current_ammo = data.max_ammo
 	reload_time = data.reload_time
 	can_shoot = true

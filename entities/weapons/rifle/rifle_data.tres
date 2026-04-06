@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://da7ar6crk57hb" path="res://entities/weapons/bullet.tscn" id="1_0k3dg"]
 [ext_resource type="Script" uid="uid://c5qj4xllsjf0i" path="res://entities/weapons/weapon_data.gd" id="2_5nrtn"]
-[ext_resource type="Script" uid="uid://bquejjm72kgnp" path="res://scripts/sound_data.gd" id="2_07n2j"]
+[ext_resource type="Script" uid="uid://bquejjm72kgnp" path="res://resources/sfx/sound_data.gd" id="2_07n2j"]
 [ext_resource type="AudioStream" uid="uid://wdq7uib7jf5i" path="res://assets/sfx/reload.wav" id="3_j4vg2"]
 [ext_resource type="AudioStream" uid="uid://5ktptmk0dtko" path="res://assets/sfx/laserShoot.wav" id="5_xaa0l"]
 [ext_resource type="Texture2D" uid="uid://crjimfbp80a2o" path="res://assets/texture/guns/ak47.png" id="6_80quv"]

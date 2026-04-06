@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="SoundData" format=3 uid="uid://cw1rhaoyr4rq5"]
 
-[ext_resource type="Script" uid="uid://bquejjm72kgnp" path="res://scripts/sound_data.gd" id="1_i6i8k"]
+[ext_resource type="Script" uid="uid://bquejjm72kgnp" path="res://resources/sfx/sound_data.gd" id="1_i6i8k"]
 [ext_resource type="AudioStream" uid="uid://lq2li5gqewt0" path="res://assets/sfx/player_death.wav" id="2_tuqr5"]
 
 [resource]

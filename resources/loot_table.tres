@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="LootTable" format=3 uid="uid://ccydqj43awkdg"]
+
+[ext_resource type="Resource" uid="uid://dgok6ebh0kkxa" path="res://entities/weapons/rifle/rifle_data.tres" id="1_i1yl3"]
+[ext_resource type="Script" uid="uid://bph02gbqx7ehi" path="res://resources/loot_table.gd" id="1_npyek"]
+
+[resource]
+script = ExtResource("1_npyek")
+items = Array[Resource]([ExtResource("1_i1yl3")])
+metadata/_custom_type_script = "uid://bph02gbqx7ehi"

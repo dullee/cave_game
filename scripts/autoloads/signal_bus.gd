@@ -14,6 +14,10 @@ var _input_enabled := true
 @warning_ignore("unused_signal") signal wave_ended(wave_num: int)
 @warning_ignore("unused_signal") signal enemies_remaining(count: int)
 @warning_ignore("unused_signal") signal spawn_tiles_updated
+@warning_ignore("unused_signal") signal show_interact_prompt(text: String)
+@warning_ignore("unused_signal") signal hide_interact_prompt
+@warning_ignore("unused_signal") signal item_picked_up(item_name: String)
+
 
 func _ready() -> void:
 	input_disabled.connect(func(): _input_enabled = false)

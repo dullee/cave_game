@@ -8,7 +8,6 @@
 [ext_resource type="Script" uid="uid://c5qj4xllsjf0i" path="res://entities/weapons/weapon_data.gd" id="5_mtric"]
 [ext_resource type="Texture2D" uid="uid://dbyqrs3p85tc8" path="res://assets/texture/guns/reload_progress.png" id="5_t1t22"]
 [ext_resource type="Script" uid="uid://byq5my4d3qu7f" path="res://components/weapon_component.gd" id="5_we0b7"]
-[ext_resource type="Resource" uid="uid://dgok6ebh0kkxa" path="res://entities/weapons/rifle/rifle_data.tres" id="6_gx6sm"]
 [ext_resource type="Resource" uid="uid://6fe368cwxdby" path="res://entities/weapons/revolver/revolver_data.tres" id="6_mtric"]
 [ext_resource type="PackedScene" uid="uid://b2sdkpkgw7a5c" path="res://components/health_component.tscn" id="7_eyb6c"]
 [ext_resource type="Script" uid="uid://p4fmppr1bfbd" path="res://UI/hud.gd" id="8_221hk"]
@@ -309,7 +308,7 @@ texture = SubResource("GradientTexture2D_smehm")
 
 [node name="WeaponComponent" type="Node" parent="." unique_id=1593560909]
 script = ExtResource("5_we0b7")
-starting_weapons = Array[ExtResource("5_mtric")]([ExtResource("6_gx6sm"), ExtResource("6_mtric")])
+weapon_slots = Array[ExtResource("5_mtric")]([ExtResource("6_mtric"), null])
 
 [node name="HealthComponent" parent="." unique_id=2030201660 instance=ExtResource("7_eyb6c")]
 max_health = 9999999
@@ -372,11 +371,25 @@ scale = Vector2(2.9234712, 2.903119)
 text = "8/8"
 horizontal_alignment = 1
 
-[node name="GunSprite2" type="Sprite2D" parent="HudCanvas/Hud" unique_id=1464726158]
+[node name="HudGunSprite" type="Sprite2D" parent="HudCanvas/Hud" unique_id=1464726158]
 position = Vector2(1307, 828.00006)
 scale = Vector2(14.858476, 14.858477)
 texture = ExtResource("4_b2kln")
 offset = Vector2(0, 4.68)
+
+[node name="InteractLabel" type="Label" parent="HudCanvas/Hud" unique_id=1424721255]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="CursorLayer" type="CanvasLayer" parent="HudCanvas" unique_id=755635080]
 script = ExtResource("13_t1t22")

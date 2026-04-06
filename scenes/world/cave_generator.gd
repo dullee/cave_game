@@ -10,6 +10,8 @@ const BORDER_TILE := Vector2i(0, 1)
 const BOSS_ROOM_WIDTH = 100
 const BOSS_ROOM_HEIGHT = 50
 
+@export var chest_scene: PackedScene
+@export var chest_count := 20
 
 var valid_spawn_tiles: Array[Vector2] = []  # world positions of valid floor tile
 var potential_spawn_tiles: Array[Vector2] = [] # can become valid spawn if tile above it is removed
@@ -65,6 +67,8 @@ func generate(_seed: int) -> void:
 	
 	_stamp_boss_room()
 	_collect_spawn_tiles()
+	if multiplayer.is_server():
+		_spawn_chests()
 	SignalBus.cave_generated.emit()
 	print("cave generated")
 	
@@ -116,6 +120,21 @@ func _stamp_boss_room() -> void:
 
 func remove_ore_light(pos):
 	tilemap.set_cell(pos, 0, WALL_TILE)
+
+func _spawn_chests() -> void:
+	if not chest_scene or valid_spawn_tiles.is_empty():
+		return
+	var shuffled = valid_spawn_tiles.duplicate()
+	shuffled.shuffle()
+	var spawned := 0
+	for pos in shuffled:
+		if spawned >= chest_count:
+			break
+		var chest = chest_scene.instantiate()
+		# Position chest on top of the floor tile
+		chest.global_position = pos - Vector2(0, tilemap.tile_set.tile_size.y)
+		get_tree().current_scene.add_child(chest)
+		spawned += 1
 
 func _prewarm_scenes() -> void:
 	var scenes_to_prewarm = [

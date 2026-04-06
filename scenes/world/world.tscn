@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://m5tosbvs7kts" path="res://scenes/world/cave_generator.gd" id="6_ckok1"]
 [ext_resource type="Script" uid="uid://ddacpuc6b72bt" path="res://entities/player/player_camera.gd" id="7_2x71e"]
 [ext_resource type="PackedScene" uid="uid://c5n7m12koykgm" path="res://components/sound_component.tscn" id="8_wnndm"]
+[ext_resource type="PackedScene" uid="uid://bvmmqki2vgbnp" path="res://entities/interactive_objects/chest.tscn" id="8_xq18t"]
 [ext_resource type="Script" uid="uid://vdualululsel" path="res://scenes/world/enemy_spawner.gd" id="9_26xou"]
 [ext_resource type="PackedScene" uid="uid://c7fvxqisjt71m" path="res://entities/enemies/enemy/enemy.tscn" id="10_jyr8v"]
 [ext_resource type="Script" uid="uid://csik3x2mq61wq" path="res://scenes/world/spawn_tile_debug.gd" id="11_5o5dd"]
@@ -48,7 +49,6 @@ texture = ExtResource("5_ues17")
 1:0/0 = 0
 0:1/0 = 0
 0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
-0:1/0/custom_data_0 = true
 1:1/0 = 0
 1:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 1:1/0/custom_data_0 = true
@@ -83,6 +83,7 @@ position = Vector2(753, -32)
 tile_map_data = PackedByteArray("AAD9/wAAAAAAAAAAAAD+/wAAAAAAAAAAAAD//wAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAACAAAAAAAAAAAAAAD6/wAAAAAAAAAAAAD7/wAAAAAAAAAAAAD8/wAAAAAAAAAAAAADAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAFAAAAAAAAAAAAAAAGAAAAAAAAAAAAAAAHAAAAAAAAAAAAAAD5/wAAAAAAAAAAAAD4/wAAAAAAAAAAAAD3/wAAAAAAAAAAAAD2/wAAAAAAAAAAAAAIAAAAAAAAAAAAAAAJAAAAAAAAAAAAAAAKAAAAAAAAAAAAAAD1/wAAAAAAAAAAAAD0/wAAAAAAAAAAAADz/wAAAAAAAAAAAADy/wAAAAAAAAAAAADx/wAAAAAAAAAAAADw/wAAAAAAAAAAAADv/wAAAAAAAAAAAADu/wAAAAAAAAAAAADt/wAAAAAAAAAAAADs/wAAAAAAAAAAAADr/wAAAAAAAAAAAADq/wAAAAAAAAAAAAALAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAANAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAAVAAAAAAAAAAAAAAAWAAAAAAAAAAAAAAAXAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAAZAAAAAAAAAAAAAAAaAAAAAAAAAAAAAADp/wAAAAAAAAAAAAA=")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1528659640 groups=["tilemaplayer"]]
+z_index = 1
 z_as_relative = false
 tile_map_data = PackedByteArray("AAALABcAAAAAAAAAAAAKABcAAAABAAAAAAAKABYAAAABAAAAAAALABYAAAABAAAAAAAMABYAAAABAAAAAAAMABcAAAABAAAAAAAMABgAAAABAAAAAAALABgAAAABAAAAAAAKABgAAAABAAAAAAA=")
 tile_set = SubResource("TileSet_qfnet")
@@ -91,6 +92,7 @@ script = ExtResource("5_rwifv")
 
 [node name="CaveGenerator" type="Node" parent="." unique_id=268849033 groups=["cave_generator"]]
 script = ExtResource("6_ckok1")
+chest_scene = ExtResource("8_xq18t")
 
 [node name="Players" type="Node2D" parent="." unique_id=2043272240 groups=["players_node"]]
 position = Vector2(753, -62)
@@ -237,3 +239,6 @@ texture = ExtResource("22_2m0ga")
 material = SubResource("CanvasItemMaterial_oo54l")
 position = Vector2(24, 0)
 texture = ExtResource("22_2m0ga")
+
+[node name="Chest" parent="." unique_id=1545063640 instance=ExtResource("8_xq18t")]
+position = Vector2(646, -78)
