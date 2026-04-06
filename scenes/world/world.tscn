@@ -4,8 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://23ae3y1gwajy" path="res://UI/loading_menu.tscn" id="2_ues17"]
 [ext_resource type="PackedScene" uid="uid://bqlrr5ond8qd4" path="res://scenes/world/spawn_area.tscn" id="3_xq18t"]
 [ext_resource type="Shader" uid="uid://c8n087kvag0j4" path="res://assets/shaders/tile_glow.gdshader" id="4_ues17"]
-[ext_resource type="Texture2D" uid="uid://cgq7i5v33sg4r" path="res://assets/texture/New Piskel.png" id="4_x0nq1"]
 [ext_resource type="Script" uid="uid://bs70lna1dynm" path="res://scenes/world/tile_map_layer.gd" id="5_rwifv"]
+[ext_resource type="Texture2D" uid="uid://n34u7j2l50bc" path="res://assets/texture/tileset.png" id="5_ues17"]
 [ext_resource type="Script" uid="uid://m5tosbvs7kts" path="res://scenes/world/cave_generator.gd" id="6_ckok1"]
 [ext_resource type="Script" uid="uid://ddacpuc6b72bt" path="res://entities/player/player_camera.gd" id="7_2x71e"]
 [ext_resource type="PackedScene" uid="uid://c5n7m12koykgm" path="res://components/sound_component.tscn" id="8_wnndm"]
@@ -34,29 +34,24 @@ glow_bloom = 1.0
 shader = ExtResource("4_ues17")
 shader_parameter/color1 = Color(0, 1, 0, 1)
 shader_parameter/color2 = Color(0, 1, 0, 1)
-shader_parameter/threshold = 1.0
+shader_parameter/threshold = 100.0
 shader_parameter/intensity = 90.0
 shader_parameter/opacity = 1.0
 shader_parameter/glow_color = Color(0, 1, 0, 1)
 
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_i7141"]
-polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_71j4m"]
-texture = ExtResource("4_x0nq1")
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_x0nq1"]
+texture = ExtResource("5_ues17")
 0:0/0 = 0
-0:0/0/modulate = Color(0, 1, 0, 1)
 0:0/0/material = SubResource("ShaderMaterial_xq18t")
 0:0/0/custom_data_0 = true
 0:0/0/custom_data_1 = true
 1:0/0 = 0
 0:1/0 = 0
-0:1/0/z_index = 5
-0:1/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_i7141")
-0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, 8, -8, -8, 8, -8, 8, 8)
+0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 0:1/0/custom_data_0 = true
 1:1/0 = 0
-1:1/0/z_index = -2
+1:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+1:1/0/custom_data_0 = true
 
 [sub_resource type="TileSet" id="TileSet_qfnet"]
 occlusion_layer_0/light_mask = 1
@@ -66,7 +61,7 @@ custom_data_layer_0/name = "breakable"
 custom_data_layer_0/type = 1
 custom_data_layer_1/name = "can_glow"
 custom_data_layer_1/type = 1
-sources/0 = SubResource("TileSetAtlasSource_71j4m")
+sources/0 = SubResource("TileSetAtlasSource_x0nq1")
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_oo54l"]
 light_mode = 1

@@ -57,7 +57,6 @@ func _process(_delta: float) -> void:
 		reload()
 	if input_manager.is_action_just_pressed("mouse_2"):
 		_throw_item.rpc()
-		print("input m2")
 		
 func equip(new_data: WeaponData) -> void:
 	data = new_data
@@ -116,7 +115,6 @@ func reload():
 	
 @rpc("any_peer", "call_local", "reliable")
 func _throw_item():
-	print("throwing item")
 	var dynamite_instance = dynamite.instantiate()
 	dynamite_instance.global_position = pivot_arm.global_position
 	dynamite_instance.direction = muzzle.global_transform.x

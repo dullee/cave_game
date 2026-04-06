@@ -3,11 +3,13 @@ extends Node
 @onready var tilemap: TileMapLayer = $"../TileMapLayer"
 
 const WALL_TILE  := Vector2i(1, 0)
-const FLOOR_TILE := Vector2i(0, 1)
+const FLOOR_TILE := Vector2i(1, 1)
 const ORE_TILE   := Vector2i(0, 0)
+const BORDER_TILE := Vector2i(0, 1)
 
 const BOSS_ROOM_WIDTH = 100
 const BOSS_ROOM_HEIGHT = 50
+
 
 var valid_spawn_tiles: Array[Vector2] = []  # world positions of valid floor tile
 var potential_spawn_tiles: Array[Vector2] = [] # can become valid spawn if tile above it is removed
@@ -55,7 +57,8 @@ func generate(_seed: int) -> void:
 			var tile = WALL_TILE if value > fill_threshold else FLOOR_TILE
 			if tile == WALL_TILE and ore_noise.get_noise_2d(x, y) > 0.6:
 				tile = ORE_TILE
-				
+			if x == 0 or x == map_width:
+				tile = BORDER_TILE
 			tilemap.set_cell(Vector2i(x, y), 0, tile)
 
 		await get_tree().process_frame
