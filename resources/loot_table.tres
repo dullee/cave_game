@@ -2,8 +2,9 @@
 
 [ext_resource type="Resource" uid="uid://dgok6ebh0kkxa" path="res://entities/weapons/rifle/rifle_data.tres" id="1_i1yl3"]
 [ext_resource type="Script" uid="uid://bph02gbqx7ehi" path="res://resources/loot_table.gd" id="1_npyek"]
+[ext_resource type="Resource" uid="uid://cwryuu1c06qj1" path="res://resources/consumable_items/medkit_item.tres" id="2_jrvr0"]
 
 [resource]
 script = ExtResource("1_npyek")
-items = Array[Resource]([ExtResource("1_i1yl3")])
+items = Array[Resource]([ExtResource("1_i1yl3"), ExtResource("2_jrvr0")])
 metadata/_custom_type_script = "uid://bph02gbqx7ehi"

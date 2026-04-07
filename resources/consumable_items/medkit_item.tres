@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="HealItem" format=3 uid="uid://cwryuu1c06qj1"]
+
+[ext_resource type="Script" uid="uid://hjj4sp6jiwrw" path="res://resources/consumable_items/heal_item.gd" id="1_68mrl"]
+
+[resource]
+script = ExtResource("1_68mrl")
+metadata/_custom_type_script = "uid://hjj4sp6jiwrw"

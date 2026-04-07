@@ -67,7 +67,7 @@ func _open() -> void:
 @rpc("authority", "call_remote", "reliable")
 func _give_item(item_path: String) -> void:
 	print("give item started")
-	var item = load(item_path) as WeaponData
+	var item = load(item_path) as Resource
 	print("loading item path: ", item)
 	if not item:
 		print("could not load item path")
@@ -82,6 +82,7 @@ func _give_item(item_path: String) -> void:
 	print("getting player ", my_id, ": ", player)
 	if player:
 		print("player found sending item")
+	
 		var weapon_comp = player.get_weapon_component()
 		if weapon_comp:
 			weapon_comp.equip(item)
