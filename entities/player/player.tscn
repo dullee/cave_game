@@ -311,7 +311,7 @@ script = ExtResource("5_we0b7")
 weapon_slots = Array[ExtResource("5_mtric")]([ExtResource("6_mtric"), null])
 
 [node name="HealthComponent" parent="." unique_id=2030201660 instance=ExtResource("7_eyb6c")]
-max_health = 9999999
+max_health = 100
 
 [node name="HudCanvas" type="CanvasLayer" parent="." unique_id=1694449481]
 
