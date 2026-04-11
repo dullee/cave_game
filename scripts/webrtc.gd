@@ -2,7 +2,7 @@
 extends Node
 
 # Replace with your Railway URL
-const SIGNAL_SERVER = "ws://signaling-server-production-784c.up.railway.app"
+const SIGNAL_SERVER = "wss://signaling-server-production-784c.up.railway.app"
 const ICE_SERVERS = [
 	{ "urls": ["stun:stun.l.google.com:19302"] },
 	{ "urls": ["stun:stun1.l.google.com:19302"] }
@@ -20,24 +20,36 @@ func _ready() -> void:
 	set_process(false)
 
 func join_session() -> void:
+	# Don't reconnect if already connected
+	var state = _ws.get_ready_state()
+	if state == WebSocketPeer.STATE_OPEN or state == WebSocketPeer.STATE_CONNECTING:
+		print("Already connected to signal server")
+		return
 	var err = _ws.connect_to_url(SIGNAL_SERVER)
 	if err != OK:
 		push_error("Failed to connect to signal server")
 		return
 	set_process(true)
-	print("Connecting to signal server...")
+	print("Connecting to signal server...")	
 
 func _process(_delta: float) -> void:
 	_ws.poll()
 	_poll_connections()
 	match _ws.get_ready_state():
+		WebSocketPeer.STATE_CONNECTING:
+			print("still connecting...")  # ← add this
 		WebSocketPeer.STATE_OPEN:
 			while _ws.get_available_packet_count():
 				var msg = _ws.get_packet().get_string_from_utf8()
+				print("received: ", msg)  # ← add this
 				_handle_message(msg)
+		WebSocketPeer.STATE_CLOSING:
+			print("closing...")
 		WebSocketPeer.STATE_CLOSED:
+			var code = _ws.get_close_code()
+			var reason = _ws.get_close_reason()
+			print("closed | code: ", code, " reason: ", reason)  # ← add this
 			set_process(false)
-			push_error("Signal server connection closed")
 
 func _poll_connections() -> void:
 	for id in _connections:
@@ -66,9 +78,11 @@ func _handle_message(msg: String) -> void:
 
 func _on_got_id(id: int) -> void:
 	_my_id = id
-	_rtc.initialize(_my_id)
+	# Replace initialize() with create_mesh()
+	_rtc.create_mesh(id)
 	get_tree().get_multiplayer().multiplayer_peer = _rtc
 	print("My WebRTC ID: ", _my_id)
+	
 
 func _on_got_peers(peers: Array) -> void:
 	# We joined an existing session
@@ -125,3 +139,12 @@ func _on_candidate(from: int, media: String, index: int, name: String) -> void:
 func _send(data: Dictionary) -> void:
 	if _ws.get_ready_state() == WebSocketPeer.STATE_OPEN:
 		_ws.send_text(JSON.stringify(data))
+
+func cleanup() -> void:
+	_ws.close()
+	for id in _connections:
+		_connections[id].close()
+	_connections.clear()
+	_my_id = 0
+	_is_ready = false
+	set_process(false)

@@ -29,15 +29,18 @@ func start_multiplayer_join(ip: String) -> void:
 		peer.create_client(ip, PORT)
 		get_tree().get_multiplayer().multiplayer_peer = peer
 
+# game_manager.gd
 func _start_webrtc() -> void:
-	Webrtc.session_ready.connect(_on_webrtc_ready, CONNECT_ONE_SHOT)
+	if not Webrtc.session_ready.is_connected(_on_webrtc_ready):
+		Webrtc.session_ready.connect(_on_webrtc_ready, CONNECT_ONE_SHOT)
 	Webrtc.join_session()
-
+	
 func _on_webrtc_ready(_my_id: int) -> void:
 	SceneManager.open_game_world()
 
 func cleanup() -> void:
+	Webrtc.cleanup()
 	var mp = get_tree().get_multiplayer()
 	if mp.multiplayer_peer:
 		mp.multiplayer_peer.close()
-		mp.multiplayer_peer = null
+		mp.multiplayer_peer = null	
