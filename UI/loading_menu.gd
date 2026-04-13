@@ -19,7 +19,8 @@ func _ready():
 		loading_complete.emit()
 	else:
 		label.text = "Loading world..."
-		_request_seed.rpc_id(1)
+		var host_id = Webrtc.host_id if Webrtc else 1
+		_request_seed.rpc_id(host_id)
 
 @rpc("any_peer", "reliable")
 func _request_seed():
