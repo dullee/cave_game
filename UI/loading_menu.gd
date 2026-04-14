@@ -19,14 +19,17 @@ func _ready():
 		loading_complete.emit()
 	else:
 		label.text = "Loading world..."
-		var host_id = Webrtc.host_id if Webrtc else 1
-		_request_seed.rpc_id(host_id)
-
+		print("requesting seed")
+		rpc_id(1, "_request_seed")
+		
 @rpc("any_peer", "reliable")
 func _request_seed():
-	if not multiplayer.is_server():
-		return
 	var id = multiplayer.get_remote_sender_id()
+	if not multiplayer.is_server():
+		print("not server")
+		return
+	print("getting seed")
+	
 	while not _generation_done:
 		await get_tree().process_frame
 	var cave_gen = get_tree().get_first_node_in_group("cave_generator")

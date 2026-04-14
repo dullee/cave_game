@@ -18,7 +18,7 @@ var potential_spawn_tiles: Array[Vector2] = [] # can become valid spawn if tile 
 const MIN_SPAWN_INTERVAL = 5  # only store every Nth tile to spread them out
 
 @export var web_map_width := 100
-@export var web_map_height := 550
+@export var web_map_height := 150
 
 @export var map_width := 100
 @export var map_height := 100

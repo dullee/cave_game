@@ -11,9 +11,10 @@ const ICE_SERVERS = [
 var _ws := WebSocketPeer.new()
 var _rtc := WebRTCMultiplayerPeer.new()
 var _my_id := 0
+var host_id := 0
 var _connections: Dictionary = {}
 var _is_ready := false
-var host_id := 0
+
 signal session_ready(my_id: int)
 
 func _ready() -> void:
@@ -78,24 +79,35 @@ func _handle_message(msg: String) -> void:
 
 func _on_got_id(id: int) -> void:
 	_my_id = id
-	host_id = id  # assume we are host until we see peers
 	print("My WebRTC ID: ", _my_id)
-	get_tree().get_multiplayer().multiplayer_peer = _rtc
+	#host_id = id  # assume we are host until we see peers
+	
+	#get_tree().get_multiplayer().multiplayer_peer = _rtc
 
 
 func _on_got_peers(peers: Array) -> void:
-	if peers.size() > 0:
-		# Someone else was here first, they are host
-		host_id = peers[0]  # first peer is oldest = host
+	if peers.is_empty():
+		host_id = _my_id  
+		_rtc.create_mesh(_my_id)
+
 	else:
-		host_id = _my_id  # we are first = we are host
-	print("Host ID: ", host_id)
-	for peer_id in peers:
-		_create_connection(peer_id, true)
+		_rtc.create_mesh(_my_id)
+		# Others exist, lowest ID is host
+		host_id = peers[0]
+		print("Host is: ", host_id)
+		# Create mesh as client
+		_rtc.create_mesh(_my_id)
+		# Connect to all existing peers
+		for peer_id in peers:
+			_create_connection(peer_id, true)
+			
+	get_tree().get_multiplayer().multiplayer_peer = _rtc
+	print("Peer assigned successfully")
+	_is_ready = true
 	session_ready.emit(_my_id)
 	
 func _on_peer_connected(id: int) -> void:
-	# New peer joined after us, they will send offer
+	print("Peer connected: ", id)
 	_create_connection(id, false)
 	if not _is_ready:
 		_is_ready = true
